@@ -13,7 +13,7 @@ Here you can find links to all neccessary documentation for each of the mileston
 >
 >[Design Document](M1_Initialization/SyncLand_Design_Report.pdf) - information about initial design, including infrastructure setup
 >
->[Project Status Report](M1_Initialization/SyncLand_Project_Timeline.pdf) - Current project status
+>[Project Status Report](M1_Initialization/SyncLand_Project_Status.pdf) - Current project status
 >
 >[Project Timeline](M1_Initialization/SyncLand_Project_Timeline.pdf) - project roadmap, timeline, and responsibilities
 >
