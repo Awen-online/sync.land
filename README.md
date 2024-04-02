@@ -22,7 +22,7 @@ Our goal is to redefine the way music is licensed and integrated into the metave
 This repository serves as the central hub for all project-related documentation, code, and resources. 
 >[/docs](docs/README.md) - This section is packed with detailed documentation, including technical specifications, user guides, and design documents. 
 >
->[/code](events/README.md) -  the source code for our website and other key software components that make Sync.Land tick. 
+>[/code](code/README.md) -  the source code for our website and other key software components that make Sync.Land tick. 
 
 ### Join the Revolution
 Sync.Land is more than a project; it's a movement towards creating a more vibrant, dynamic, and equitable digital world. Whether you're an artist looking to have your music heard in new realms, a developer seeking the perfect score for your next game, or an enthusiast passionate about the future of digital experiences, we invite you to join us.
