@@ -21,6 +21,15 @@ Here you can find links to all neccessary documentation for each of the mileston
 
 
 ### Milestone 2 - Development
+>[Project Status Report](M2_Development/SyncLand_Project_Status.pdf) - Current project status
+>
+>[Project Timeline](M2_Development/SyncLand_Project_Timeline.pdf) - project roadmap, timeline, and responsibilities
+>
+>[Pilot Marketing Document](M2_Development/SyncLand_Pilot_Marketing_Report.pdf) - information about pilot users selection & marketing setup
+>
+>[Test Case: Sync NFT License Metadata](M2_Development/Test_Case_-_Simple_NFT_Transaction_Sync_Metadata.mp4) - a simple Cardano transaction of an NFT on Cardano's Pre-production Network that includes metadata for a sync license
+>
+>[Test Case: User Registration & Song Upload](M2_Development/Test_Case_-_User_Registration_and_Song_Upload.mp4) - a user can register and upload a song to the marketplace
 ### Milestone 3 - Marketplace Launch & API Development
 ### Milestone 4 - Marketplace Updates & API Launch
 ### Milestone 5 - Finalization
