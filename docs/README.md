@@ -21,9 +21,9 @@ Here you can find links to all neccessary documentation for each of the mileston
 
 
 ### Milestone 2 - Development
->[Project Status Report](M2_Development/SyncLand_Project_Status.pdf) - Current project status
+>[Project Status Report](M2_Development/SyncLand_Project_Status_Report_M2.pdf) - Current project status
 >
->[Project Timeline](M2_Development/SyncLand_Project_Timeline.pdf) - project roadmap, timeline, and responsibilities
+>[Project Timeline](M2_Development/SyncLand_Project_Timeline_M2.pdf) - project roadmap, timeline, and responsibilities
 >
 >[Pilot Marketing Document](M2_Development/SyncLand_Pilot_Marketing_Report.pdf) - information about pilot users selection & marketing setup
 >
