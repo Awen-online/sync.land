@@ -1,0 +1,241 @@
+/**
+ * Sync.Land form baseline
+ *
+ * Opt-in via `.fml-form` class on a <form> element. Scoped deliberately to
+ * avoid clobbering Gravity Forms, User Registration, Elementor, or other
+ * third-party form styles.
+ *
+ * Usage: <form class="fml-form"> ... </form>
+ */
+
+/* Row + label spacing --------------------------------------------------- */
+
+.fml-form .fml-form-row,
+.fml-form .oceanwp-row,
+.fml-form .span_1_of_1,
+.fml-form .span_1_of_2,
+.fml-form .span_1_of_3,
+.fml-form .span_1_of_4 {
+    margin-bottom: 18px;
+}
+
+.fml-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--color-ice-white, #E9F1FF);
+    letter-spacing: 0.2px;
+}
+
+/* Inline labels (checkboxes / radios) stay inline */
+.fml-form label:has(> input[type="checkbox"]),
+.fml-form label:has(> input[type="radio"]) {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-right: 12px;
+    margin-bottom: 6px;
+    font-weight: 400;
+}
+
+.fml-form .required:after {
+    content: " *";
+    color: var(--color-orange, #F0914D);
+    font-weight: 700;
+}
+
+/* Inputs ---------------------------------------------------------------- */
+
+.fml-form input[type="text"],
+.fml-form input[type="email"],
+.fml-form input[type="url"],
+.fml-form input[type="password"],
+.fml-form input[type="tel"],
+.fml-form input[type="number"],
+.fml-form input[type="date"],
+.fml-form input[type="time"],
+.fml-form input[type="datetime-local"],
+.fml-form input[type="search"],
+.fml-form select,
+.fml-form textarea {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    padding: 10px 14px;
+    font-size: 15px;
+    line-height: 1.4;
+    color: var(--color-ice-white, #E9F1FF);
+    background-color: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--color-border, rgba(255, 255, 255, 0.15));
+    border-radius: 6px;
+    box-shadow: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+    box-sizing: border-box;
+}
+
+.fml-form select {
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23E9F1FF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+    padding-right: 40px;
+    cursor: pointer;
+}
+
+.fml-form input[type="file"] {
+    display: block;
+    width: 100%;
+    padding: 8px 0;
+    color: var(--color-ice-white, #E9F1FF);
+}
+
+.fml-form textarea {
+    min-height: 120px;
+    resize: vertical;
+    font-family: inherit;
+}
+
+/* Focus / hover --------------------------------------------------------- */
+
+.fml-form input:focus,
+.fml-form select:focus,
+.fml-form textarea:focus {
+    outline: none;
+    border-color: var(--color-bright-blue, #2F6ED3);
+    background-color: rgba(255, 255, 255, 0.10);
+    box-shadow: 0 0 0 3px rgba(47, 110, 211, 0.25);
+}
+
+.fml-form input:hover:not(:focus),
+.fml-form select:hover:not(:focus),
+.fml-form textarea:hover:not(:focus) {
+    border-color: rgba(255, 255, 255, 0.30);
+}
+
+.fml-form input::placeholder,
+.fml-form textarea::placeholder {
+    color: rgba(233, 241, 255, 0.45);
+}
+
+/* Validation ------------------------------------------------------------ */
+
+.fml-form input:invalid:not(:placeholder-shown),
+.fml-form select:invalid,
+.fml-form textarea:invalid:not(:placeholder-shown) {
+    border-color: var(--color-orange, #F0914D);
+}
+
+.fml-form .fml-field-help {
+    display: block;
+    margin-top: 6px;
+    font-size: 12px;
+    color: var(--color-muted, rgba(255, 255, 255, 0.5));
+    line-height: 1.4;
+}
+
+.fml-form .fml-field-error {
+    display: block;
+    margin-top: 6px;
+    font-size: 12px;
+    color: var(--color-orange, #F0914D);
+}
+
+/* Buttons --------------------------------------------------------------- */
+
+.fml-form .fml-btn,
+.fml-form button[type="submit"],
+.fml-form button[type="button"].fml-btn,
+.fml-form input[type="submit"].fml-btn {
+    display: inline-block;
+    padding: 12px 28px;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: transform 0.08s ease, box-shadow 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
+    text-decoration: none;
+}
+
+.fml-form .fml-btn-primary,
+.fml-form button[type="submit"] {
+    background-color: var(--color-hot-pink, #E237B2);
+    color: #fff;
+    border-color: var(--color-hot-pink, #E237B2);
+}
+
+.fml-form .fml-btn-primary:hover,
+.fml-form button[type="submit"]:hover {
+    background-color: #c62d99;
+    border-color: #c62d99;
+}
+
+.fml-form .fml-btn-secondary {
+    background-color: transparent;
+    color: var(--color-ice-white, #E9F1FF);
+    border-color: var(--color-border, rgba(255, 255, 255, 0.30));
+}
+
+.fml-form .fml-btn-secondary:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+    border-color: var(--color-bright-blue, #2F6ED3);
+    color: var(--color-bright-blue, #2F6ED3);
+}
+
+.fml-form .fml-btn:active {
+    transform: translateY(1px);
+}
+
+.fml-form .fml-btn:disabled,
+.fml-form button[type="submit"]:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Form actions row (sticks submit buttons together visually) ----------- */
+
+.fml-form .fml-form-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+    padding-top: 18px;
+    margin-top: 18px;
+    border-top: 1px solid var(--color-border, rgba(255, 255, 255, 0.10));
+}
+
+.fml-form .fml-form-actions .fml-save-status {
+    margin-left: auto;
+    font-size: 12px;
+    color: var(--color-muted, rgba(255, 255, 255, 0.5));
+}
+
+.fml-form .fml-form-actions .fml-save-status.is-saved {
+    color: #7ed957;
+}
+
+/* Back link (used with arrow icon) ------------------------------------- */
+
+.fml-return-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+    color: var(--color-ice-white, #E9F1FF);
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.fml-return-link:hover {
+    color: var(--color-bright-blue, #2F6ED3);
+}
+
+.fml-return-link i {
+    /* Override any floated icons in legacy markup */
+    float: none !important;
+    margin-right: 0 !important;
+}

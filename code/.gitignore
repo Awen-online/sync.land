@@ -1,0 +1,20 @@
+# Ignore everything by default
+*
+
+# Track our theme
+!wp-content/
+!wp-content/themes/
+!wp-content/themes/hello-elementor-child-sync-land/
+!wp-content/themes/hello-elementor-child-sync-land/**
+
+# Local-only debug/one-off scripts
+wp-content/themes/hello-elementor-child-sync-land/scripts/debug/
+
+# Track our music player plugin
+!wp-content/plugins/
+!wp-content/plugins/fml-music-player/
+!wp-content/plugins/fml-music-player/**
+
+# Track root files
+!.gitignore
+!README.md
