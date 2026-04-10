@@ -1,0 +1,277 @@
+/**
+ * Sync.Land Admin Analytics Dashboard Styles
+ */
+
+/* Tab navigation */
+.fml-analytics-tabs {
+    display: flex;
+    gap: 0;
+    margin: 20px 0 0;
+    border-bottom: 1px solid #c3c4c7;
+}
+.fml-analytics-tab {
+    padding: 10px 20px;
+    text-decoration: none;
+    color: #50575e;
+    font-weight: 500;
+    border: 1px solid transparent;
+    border-bottom: none;
+    margin-bottom: -1px;
+    background: transparent;
+    cursor: pointer;
+    font-size: 14px;
+}
+.fml-analytics-tab:hover {
+    color: #2271b1;
+}
+.fml-analytics-tab.active {
+    background: #fff;
+    border-color: #c3c4c7;
+    border-bottom-color: #fff;
+    color: #1d2327;
+    font-weight: 600;
+}
+
+/* Tab panels */
+.fml-analytics-panel {
+    display: none;
+    padding: 20px 0;
+}
+.fml-analytics-panel.active {
+    display: block;
+}
+
+/* Stat cards grid */
+.fml-stat-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+.fml-stat-card {
+    background: #fff;
+    border: 1px solid #c3c4c7;
+    border-radius: 4px;
+    padding: 20px;
+    text-align: center;
+}
+.fml-stat-card .fml-stat-value {
+    font-size: 32px;
+    font-weight: 700;
+    color: #2271b1;
+    line-height: 1.2;
+}
+.fml-stat-card .fml-stat-label {
+    font-size: 13px;
+    color: #646970;
+    margin-top: 4px;
+}
+
+/* Funnel */
+.fml-funnel {
+    background: #fff;
+    border: 1px solid #c3c4c7;
+    border-radius: 4px;
+    padding: 20px;
+    margin-bottom: 24px;
+}
+.fml-funnel h3 {
+    margin: 0 0 16px;
+    font-size: 15px;
+}
+.fml-funnel-step {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+.fml-funnel-label {
+    width: 140px;
+    font-size: 13px;
+    text-align: right;
+    color: #50575e;
+}
+.fml-funnel-bar-wrap {
+    flex: 1;
+    background: #f0f0f1;
+    border-radius: 4px;
+    height: 28px;
+    position: relative;
+    overflow: hidden;
+}
+.fml-funnel-bar {
+    height: 100%;
+    background: #2271b1;
+    border-radius: 4px;
+    transition: width 0.5s ease;
+    min-width: 2px;
+}
+.fml-funnel-count {
+    font-size: 13px;
+    font-weight: 600;
+    width: 60px;
+    color: #1d2327;
+}
+.fml-funnel-dropoff {
+    font-size: 11px;
+    color: #d63638;
+    width: 60px;
+}
+
+/* Top songs table */
+.fml-top-songs {
+    background: #fff;
+    border: 1px solid #c3c4c7;
+    border-radius: 4px;
+    padding: 20px;
+    margin-bottom: 24px;
+}
+.fml-top-songs h3 {
+    margin: 0 0 12px;
+    font-size: 15px;
+}
+.fml-top-songs table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.fml-top-songs th,
+.fml-top-songs td {
+    padding: 8px 12px;
+    text-align: left;
+    border-bottom: 1px solid #f0f0f1;
+    font-size: 13px;
+}
+.fml-top-songs th {
+    font-weight: 600;
+    color: #50575e;
+}
+
+/* Chart container */
+.fml-chart-container {
+    background: #fff;
+    border: 1px solid #c3c4c7;
+    border-radius: 4px;
+    padding: 20px;
+    margin-bottom: 24px;
+}
+.fml-chart-container h3 {
+    margin: 0 0 16px;
+    font-size: 15px;
+}
+.fml-chart-container canvas {
+    width: 100% !important;
+    max-height: 300px;
+}
+
+/* Filters row */
+.fml-filters {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+}
+.fml-filters label {
+    font-size: 13px;
+    font-weight: 500;
+}
+.fml-filters input[type="date"],
+.fml-filters select {
+    padding: 4px 8px;
+    font-size: 13px;
+}
+
+/* NPS display */
+.fml-nps-display {
+    background: #fff;
+    border: 1px solid #c3c4c7;
+    border-radius: 4px;
+    padding: 20px;
+    margin-bottom: 24px;
+    text-align: center;
+}
+.fml-nps-score {
+    font-size: 48px;
+    font-weight: 700;
+    color: #2271b1;
+}
+.fml-nps-breakdown {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    margin-top: 12px;
+}
+.fml-nps-group {
+    text-align: center;
+}
+.fml-nps-group .count {
+    font-size: 20px;
+    font-weight: 600;
+}
+.fml-nps-group .label {
+    font-size: 12px;
+    color: #646970;
+}
+.fml-nps-promoters .count { color: #00a32a; }
+.fml-nps-passives .count { color: #dba617; }
+.fml-nps-detractors .count { color: #d63638; }
+
+/* Use case bars */
+.fml-usecase-bars {
+    background: #fff;
+    border: 1px solid #c3c4c7;
+    border-radius: 4px;
+    padding: 20px;
+    margin-bottom: 24px;
+}
+.fml-usecase-bars h3 {
+    margin: 0 0 16px;
+    font-size: 15px;
+}
+.fml-usecase-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+.fml-usecase-label {
+    width: 200px;
+    font-size: 13px;
+    text-align: right;
+    color: #50575e;
+}
+.fml-usecase-bar-wrap {
+    flex: 1;
+    background: #f0f0f1;
+    border-radius: 4px;
+    height: 22px;
+    overflow: hidden;
+}
+.fml-usecase-bar {
+    height: 100%;
+    background: #6366f1;
+    border-radius: 4px;
+    min-width: 2px;
+}
+.fml-usecase-count {
+    width: 40px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+/* Settings form */
+.fml-settings-form .form-table th {
+    width: 250px;
+}
+.fml-purge-section {
+    background: #fff;
+    border: 1px solid #c3c4c7;
+    border-left: 4px solid #d63638;
+    border-radius: 4px;
+    padding: 16px 20px;
+    margin-top: 24px;
+}
+.fml-purge-section h3 {
+    margin: 0 0 8px;
+    color: #d63638;
+}

@@ -1,0 +1,435 @@
+/**
+ * Album Grid Styles
+ * For the [album_grid] shortcode
+ */
+
+/* Controls Bar */
+.fml-album-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 16px 0;
+    margin-bottom: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.fml-album-stats {
+    display: flex;
+    gap: 20px;
+    font-size: 14px;
+    color: var(--text-muted, #888);
+}
+
+.fml-album-stats strong {
+    color: var(--text-color, #fff);
+}
+
+.fml-album-sorting {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.fml-sort-options {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.fml-sort-options label {
+    font-size: 13px;
+    color: var(--text-muted, #888);
+}
+
+.fml-sort-select {
+    background: var(--card-bg, var(--color-surface));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-color, #fff);
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.fml-sort-select:focus {
+    outline: none;
+    border-color: var(--accent-color, var(--color-hot-pink));
+}
+
+.fml-view-toggle {
+    display: flex;
+    gap: 4px;
+}
+
+.fml-view-btn {
+    width: 36px;
+    height: 36px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: transparent;
+    color: var(--text-muted, #888);
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.fml-view-btn:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-color, #fff);
+}
+
+.fml-view-btn.active {
+    background: var(--accent-color, var(--color-hot-pink));
+    border-color: var(--accent-color, var(--color-hot-pink));
+    color: #fff;
+}
+
+/* Grid Container */
+.fml-album-grid {
+    display: grid;
+    gap: 24px;
+    padding: 20px 0;
+}
+
+.fml-album-grid.view-grid {
+    display: grid;
+}
+
+.fml-album-grid.columns-2 {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.fml-album-grid.columns-3 {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.fml-album-grid.columns-4 {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+@media (max-width: 1024px) {
+    .fml-album-grid.columns-4,
+    .fml-album-grid.columns-3 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .fml-album-grid.columns-4,
+    .fml-album-grid.columns-3,
+    .fml-album-grid.columns-2 {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Album Card */
+.fml-album-card {
+    background: var(--card-bg, var(--color-surface));
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.fml-album-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+/* Cover Art */
+.fml-album-cover {
+    position: relative;
+    aspect-ratio: 1;
+    overflow: hidden;
+    background: var(--color-surface-deep);
+}
+
+.fml-album-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.fml-album-card:hover .fml-album-cover img {
+    transform: scale(1.05);
+    filter: brightness(0.7);
+}
+
+.fml-album-cover-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--color-surface) 0%, var(--color-surface-deep) 100%);
+    color: #444;
+    font-size: 48px;
+}
+
+/* Play/Preview Overlay */
+.fml-album-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.fml-album-card:hover .fml-album-overlay {
+    opacity: 1;
+}
+
+.fml-album-play-btn,
+.fml-album-preview-btn {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.fml-album-play-btn {
+    background: var(--accent-color, var(--color-hot-pink));
+    color: #fff;
+}
+
+.fml-album-play-btn:hover {
+    transform: scale(1.1);
+    background: var(--accent-hover, var(--color-orange));
+}
+
+/* Album Info */
+.fml-album-info {
+    padding: 16px;
+}
+
+.fml-album-title {
+    margin: 0 0 8px 0;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.fml-album-title a {
+    color: var(--text-color, #fff);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.fml-album-title a:hover {
+    color: var(--accent-color, var(--color-hot-pink));
+}
+
+/* Metadata Row */
+.fml-album-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 12px;
+    font-size: 13px;
+    color: var(--text-muted, #888);
+}
+
+.fml-album-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.fml-album-meta-item i {
+    font-size: 11px;
+    opacity: 0.7;
+}
+
+/* Genre/Mood Tags (Word Cloud) */
+.fml-album-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    line-height: 1.6;
+}
+
+.fml-tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    white-space: nowrap;
+}
+
+.fml-tag:hover {
+    transform: scale(1.05);
+    opacity: 0.9;
+}
+
+.fml-tag-genre {
+    background: rgba(226, 55, 178, 0.2);
+    color: var(--color-hot-pink);
+}
+
+.fml-tag-mood {
+    background: rgba(19, 175, 240, 0.2);
+    color: var(--color-bright-blue);
+}
+
+/* Error/Empty States */
+.album-grid-error,
+.album-grid-empty {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-muted, #888);
+    font-style: italic;
+}
+
+/* ==================== */
+/* LIST VIEW STYLES     */
+/* ==================== */
+
+.fml-album-grid.view-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.view-list .fml-album-card {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 12px;
+    border-radius: 8px;
+}
+
+.view-list .fml-album-cover {
+    width: 80px;
+    height: 80px;
+    min-width: 80px;
+    aspect-ratio: 1;
+    border-radius: 6px;
+}
+
+.view-list .fml-album-overlay {
+    opacity: 0;
+}
+
+.view-list .fml-album-card:hover .fml-album-overlay {
+    opacity: 1;
+}
+
+.view-list .fml-album-play-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 14px;
+}
+
+.view-list .fml-album-info {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 0 16px;
+}
+
+.view-list .fml-album-title {
+    flex: 1;
+    min-width: 150px;
+    margin: 0;
+}
+
+.view-list .fml-album-meta {
+    margin: 0;
+    gap: 16px;
+    min-width: 200px;
+    justify-content: flex-end;
+}
+
+.view-list .fml-album-tags {
+    flex: 1;
+    min-width: 200px;
+    max-width: 300px;
+}
+
+/* List view play button on right */
+.view-list .fml-list-play-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: none;
+    background: var(--accent-color, var(--color-hot-pink));
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    transition: transform 0.2s ease, background 0.2s ease;
+    margin-left: 16px;
+}
+
+.view-list .fml-list-play-btn:hover {
+    transform: scale(1.1);
+    background: var(--accent-hover, var(--color-orange));
+}
+
+/* Responsive list view */
+@media (max-width: 768px) {
+    .view-list .fml-album-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .view-list .fml-album-meta {
+        justify-content: flex-start;
+    }
+
+    .view-list .fml-album-tags {
+        max-width: none;
+    }
+
+    .fml-album-controls {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+/* Dark mode adjustments (if needed) */
+@media (prefers-color-scheme: light) {
+    .fml-album-card {
+        background: #fff;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .fml-album-title a {
+        color: var(--color-surface);
+    }
+
+    .fml-album-meta {
+        color: #666;
+    }
+
+    .fml-sort-select {
+        background: #fff;
+        color: var(--color-surface);
+    }
+
+    .fml-album-controls {
+        border-bottom-color: rgba(0, 0, 0, 0.1);
+    }
+}

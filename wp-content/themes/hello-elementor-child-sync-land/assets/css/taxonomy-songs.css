@@ -1,0 +1,751 @@
+/**
+ * Taxonomy Songs Page Styles
+ * For genre and mood archive pages
+ */
+
+.taxonomy-songs-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px 40px;
+}
+
+/* Header with Images */
+.taxonomy-header {
+    position: relative;
+    height: 280px;
+    margin: -20px -20px 30px -20px;
+    overflow: hidden;
+    border-radius: 0 0 20px 20px;
+}
+
+.taxonomy-header-images {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0;
+}
+
+.header-image-item {
+    overflow: hidden;
+}
+
+.header-image-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.7);
+}
+
+.header-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(26, 26, 46, 0.3) 0%,
+        rgba(26, 26, 46, 0.7) 50%,
+        rgba(26, 26, 46, 0.95) 100%
+    );
+}
+
+.taxonomy-header-content {
+    position: absolute;
+    bottom: 30px;
+    left: 30px;
+    right: 30px;
+    z-index: 2;
+}
+
+.taxonomy-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+}
+
+.genre-page .taxonomy-badge {
+    background: rgba(47, 110, 211, 0.2);
+    color: var(--color-bright-blue);
+    border: 1px solid rgba(47, 110, 211, 0.3);
+}
+
+.mood-page .taxonomy-badge {
+    background: rgba(240, 145, 77, 0.2);
+    color: var(--color-orange);
+    border: 1px solid rgba(240, 145, 77, 0.3);
+}
+
+.taxonomy-title {
+    margin: 0 0 10px 0;
+    font-size: 42px;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.taxonomy-description {
+    margin: 0;
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.8);
+    max-width: 600px;
+}
+
+/* Stats Bar */
+.taxonomy-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+    padding: 20px 25px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    margin-bottom: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.stat-item i {
+    font-size: 18px;
+    color: var(--color-hot-pink);
+    width: 24px;
+    text-align: center;
+}
+
+.stat-value {
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+}
+
+.stat-label {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.stat-tags {
+    flex: 1;
+    justify-content: flex-end;
+}
+
+.stat-tags .stat-label {
+    margin-right: 8px;
+}
+
+.stat-tags-list {
+    display: flex;
+    gap: 8px;
+}
+
+.stat-tag {
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.stat-tag.genre-tag {
+    background: rgba(47, 110, 211, 0.2);
+    color: var(--color-bright-blue);
+    border: 1px solid rgba(47, 110, 211, 0.3);
+}
+
+.stat-tag.genre-tag:hover {
+    background: rgba(47, 110, 211, 0.3);
+}
+
+.stat-tag.mood-tag {
+    background: rgba(240, 145, 77, 0.2);
+    color: var(--color-orange);
+    border: 1px solid rgba(240, 145, 77, 0.3);
+}
+
+.stat-tag.mood-tag:hover {
+    background: rgba(240, 145, 77, 0.3);
+}
+
+/* Controls */
+.taxonomy-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: flex-end;
+    margin-bottom: 20px;
+}
+
+.taxonomy-search-wrap {
+    position: relative;
+    flex: 1;
+    min-width: 200px;
+    max-width: 350px;
+}
+
+.taxonomy-search-input {
+    width: 100%;
+    padding: 12px 40px 12px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.taxonomy-search-input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.taxonomy-search-input:focus {
+    outline: none;
+    border-color: var(--color-hot-pink);
+    box-shadow: 0 0 0 3px rgba(226, 55, 178, 0.2);
+}
+
+.taxonomy-search-icon {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(255, 255, 255, 0.5);
+    pointer-events: none;
+}
+
+.taxonomy-sort-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.sort-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--color-hot-pink);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.taxonomy-sort-select {
+    padding: 10px 35px 10px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='white' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    min-width: 160px;
+}
+
+.taxonomy-sort-select:focus {
+    outline: none;
+    border-color: var(--color-hot-pink);
+}
+
+.taxonomy-sort-select option {
+    background: var(--color-surface);
+    color: #fff;
+}
+
+.play-all-btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    background: var(--color-hot-pink);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s;
+}
+
+.play-all-btn:hover {
+    background: var(--color-orange);
+    transform: translateY(-1px);
+}
+
+.play-all-btn i {
+    font-size: 12px;
+}
+
+/* Results Info */
+.taxonomy-results-info {
+    margin-bottom: 15px;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 14px;
+}
+
+/* Loading */
+.taxonomy-loading {
+    display: none;
+    justify-content: center;
+    padding: 40px;
+}
+
+.taxonomy-loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    border-top-color: var(--color-hot-pink);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Songs Container */
+.taxonomy-songs-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transition: opacity 0.2s;
+}
+
+.taxonomy-no-results,
+.taxonomy-error {
+    text-align: center;
+    padding: 60px 20px;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 16px;
+}
+
+/* Song Row */
+.song-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 12px 15px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    transition: all 0.2s;
+}
+
+.song-row:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(226, 55, 178, 0.3);
+}
+
+.song-row .song-play {
+    width: 60px;
+    height: 60px;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    flex-shrink: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    background: none;
+}
+
+.song-row .song-cover {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-color: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: filter 0.2s;
+}
+
+.song-row .song-cover i {
+    font-size: 20px;
+    color: #fff;
+    opacity: 0;
+    transition: opacity 0.2s;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.song-row:hover .song-cover {
+    filter: brightness(0.7);
+}
+
+.song-row:hover .song-cover i {
+    opacity: 1;
+}
+
+.song-row .song-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.song-row .song-title {
+    display: block;
+    font-size: 15px;
+    font-weight: 600;
+    color: #fff;
+    text-decoration: none;
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.song-row .song-title:hover {
+    color: var(--color-hot-pink);
+}
+
+.song-row .song-meta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    margin-bottom: 6px;
+}
+
+.song-row .song-artist {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+}
+
+.song-row .song-artist:hover {
+    color: var(--color-hot-pink);
+}
+
+.song-row .song-meta-sep {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.song-row .song-album {
+    color: rgba(255, 255, 255, 0.5);
+    text-decoration: none;
+}
+
+.song-row .song-album:hover {
+    color: var(--color-hot-pink);
+}
+
+.song-row .song-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.song-row .song-tag {
+    padding: 2px 8px;
+    border-radius: 8px;
+    font-size: 10px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.song-row .song-tag.genre-tag {
+    background: rgba(47, 110, 211, 0.15);
+    color: var(--color-bright-blue);
+}
+
+.song-row .song-tag.genre-tag:hover {
+    background: rgba(93, 173, 226, 0.25);
+}
+
+.song-row .song-tag.mood-tag {
+    background: rgba(240, 145, 77, 0.15);
+    color: var(--color-orange);
+}
+
+.song-row .song-tag.mood-tag:hover {
+    background: rgba(245, 176, 65, 0.25);
+}
+
+.song-row .song-actions {
+    display: flex;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.song-row .action-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.song-row .download-btn {
+    background: rgba(226, 55, 178, 0.2);
+    color: var(--color-hot-pink);
+}
+
+.song-row .download-btn:hover {
+    background: var(--color-hot-pink);
+    color: #fff;
+}
+
+/* Pagination */
+.taxonomy-pagination {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+.taxonomy-pagination .pagination-inner {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.taxonomy-pagination .page-btn {
+    min-width: 40px;
+    height: 40px;
+    padding: 0 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: transparent;
+    color: rgba(255, 255, 255, 0.7);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.taxonomy-pagination .page-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+.taxonomy-pagination .page-btn.active {
+    background: var(--color-hot-pink);
+    border-color: var(--color-hot-pink);
+    color: #fff;
+}
+
+.taxonomy-pagination .page-ellipsis {
+    color: rgba(255, 255, 255, 0.4);
+    padding: 0 8px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .taxonomy-header {
+        height: 220px;
+        margin: -15px -15px 20px -15px;
+    }
+
+    .taxonomy-header-images {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .taxonomy-header-content {
+        bottom: 20px;
+        left: 20px;
+        right: 20px;
+    }
+
+    .taxonomy-title {
+        font-size: 28px;
+    }
+
+    .taxonomy-description {
+        font-size: 14px;
+    }
+
+    .taxonomy-stats {
+        gap: 15px;
+        padding: 15px;
+    }
+
+    .stat-value {
+        font-size: 18px;
+    }
+
+    .stat-tags {
+        width: 100%;
+        justify-content: flex-start;
+        margin-top: 10px;
+    }
+
+    .taxonomy-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .taxonomy-search-wrap {
+        max-width: none;
+    }
+
+    .play-all-btn {
+        justify-content: center;
+    }
+
+    .song-row {
+        padding: 10px;
+        gap: 12px;
+    }
+
+    .song-row .song-play {
+        width: 50px;
+        height: 50px;
+    }
+
+    .song-row .song-tags {
+        display: none;
+    }
+
+    .song-row .song-actions {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .song-row .action-btn {
+        width: 36px;
+        height: 36px;
+    }
+}
+
+@media (max-width: 480px) {
+    .taxonomy-header-images {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .stat-item {
+        width: calc(50% - 10px);
+    }
+
+    .stat-item i {
+        display: none;
+    }
+}
+
+/* ==========================================================================
+   WAVEFORM STYLES
+   ========================================================================== */
+
+.song-waveform-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0;
+    grid-column: 1 / -1;
+}
+
+.waveform-time {
+    font-size: 11px;
+    font-family: 'Monaco', 'Consolas', monospace;
+    min-width: 40px;
+    text-align: center;
+}
+
+.waveform-time.current-time {
+    color: var(--color-bright-blue);
+}
+
+.waveform-time.duration {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.waveform-canvas-wrapper {
+    flex: 1;
+    height: 48px;
+    position: relative;
+    cursor: pointer;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.song-waveform-canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.waveform-progress-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0%;
+    pointer-events: none;
+}
+
+/* Song row with waveform */
+.song-row:has(.song-waveform-container) {
+    flex-wrap: wrap;
+}
+
+/* Currently playing indicator */
+.song-row.is-playing .song-play .fa-play:before {
+    content: "\f04c"; /* pause icon */
+}
+
+.song-row.is-playing {
+    background: rgba(47, 110, 211, 0.08);
+    border-color: rgba(47, 110, 211, 0.3);
+}
+
+.song-row.is-playing .song-cover {
+    box-shadow: 0 0 0 2px var(--color-bright-blue);
+}
+
+.song-row.is-playing .waveform-canvas-wrapper {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+/* Hover effect on waveform */
+.waveform-canvas-wrapper:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Responsive waveform */
+@media (max-width: 768px) {
+    .song-waveform-container {
+        gap: 8px;
+        padding: 6px 0;
+    }
+
+    .waveform-time {
+        font-size: 10px;
+        min-width: 35px;
+    }
+
+    .waveform-canvas-wrapper {
+        height: 40px;
+    }
+}
+
+@media (max-width: 480px) {
+    .waveform-time {
+        font-size: 9px;
+        min-width: 30px;
+    }
+
+    .waveform-canvas-wrapper {
+        height: 32px;
+    }
+}
