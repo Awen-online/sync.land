@@ -1,0 +1,921 @@
+/* =============================================================================
+   Sync.Land — Album Upload Wizard Styles
+   ============================================================================= */
+
+/* -----------------------------------------------------------------------------
+   Wizard Progress Bar
+   ----------------------------------------------------------------------------- */
+.wizard-progress {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 0 40px;
+    padding: 0;
+    list-style: none;
+    position: relative;
+    counter-reset: step;
+}
+.wizard-progress::before {
+    content: '';
+    position: absolute;
+    top: 18px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.15);
+    z-index: 0;
+}
+.wizard-progress li {
+    position: relative;
+    z-index: 1;
+    flex: 1;
+    text-align: center;
+}
+.wizard-progress li .step-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--color-surface-card, #252540);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+.wizard-progress li .step-label {
+    display: block;
+    margin-top: 8px;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.4);
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+.wizard-progress li.active .step-number {
+    background: var(--color-hot-pink, #E237B2);
+    border-color: var(--color-hot-pink, #E237B2);
+    color: #fff;
+    box-shadow: 0 0 16px rgba(226, 55, 178, 0.4);
+}
+.wizard-progress li.active .step-label {
+    color: rgba(255, 255, 255, 0.9);
+}
+.wizard-progress li.completed .step-number {
+    background: #28a745;
+    border-color: #28a745;
+    color: #fff;
+}
+.wizard-progress li.completed .step-label {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* -----------------------------------------------------------------------------
+   Wizard Step Containers
+   ----------------------------------------------------------------------------- */
+.wizard-step {
+    display: none;
+    animation: fadeIn 0.3s ease;
+}
+.wizard-step.active {
+    display: block;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Step header */
+.wizard-step h2 {
+    color: #fff;
+    font-size: 22px;
+    margin: 0 0 8px;
+}
+.wizard-step .step-subtitle {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 14px;
+    margin: 0 0 28px;
+}
+
+/* Navigation buttons */
+.wizard-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+.wizard-nav .wizard-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 28px;
+    border-radius: 25px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s ease;
+}
+.wizard-btn-back {
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.8);
+}
+.wizard-btn-back:hover {
+    background: rgba(255, 255, 255, 0.18);
+    color: #fff;
+}
+.wizard-btn-next {
+    background: var(--gradient-brand, linear-gradient(135deg, #E237B2 0%, #F0914D 100%));
+    color: #fff;
+}
+.wizard-btn-next:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(226, 55, 178, 0.35);
+}
+.wizard-btn-submit {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    color: #fff;
+}
+.wizard-btn-submit:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(40, 167, 69, 0.35);
+}
+.wizard-btn-submit:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* -----------------------------------------------------------------------------
+   Form Base — dark theme inputs
+   ----------------------------------------------------------------------------- */
+#songs-upload-form {
+    color: rgba(255, 255, 255, 0.9);
+    max-width: 860px;
+    margin: 0 auto;
+}
+#songs-upload-form h1,
+#songs-upload-form h2,
+#songs-upload-form h3 {
+    color: #fff;
+}
+
+.form-field {
+    margin-bottom: 20px;
+}
+.form-field label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 14px;
+}
+.form-field .field-hint {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.45);
+    margin-top: 4px;
+}
+
+#songs-upload-form input[type="text"],
+#songs-upload-form input[type="number"],
+#songs-upload-form input[type="date"],
+#songs-upload-form textarea,
+#songs-upload-form select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: var(--font-body, 'Inter', sans-serif);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+}
+#songs-upload-form input::placeholder,
+#songs-upload-form textarea::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+#songs-upload-form input:focus,
+#songs-upload-form textarea:focus,
+#songs-upload-form select:focus {
+    outline: none;
+    border-color: var(--color-hot-pink, #E237B2);
+    box-shadow: 0 0 0 3px rgba(226, 55, 178, 0.2);
+}
+#songs-upload-form select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='white' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 35px;
+    appearance: none;
+    -webkit-appearance: none;
+}
+#songs-upload-form select option {
+    background-color: #1a1a2e;
+    color: #fff;
+}
+#songs-upload-form input[type="radio"],
+#songs-upload-form input[type="checkbox"] {
+    accent-color: var(--color-hot-pink, #E237B2);
+}
+
+.required::after {
+    content: " *";
+    color: var(--color-orange, #F0914D);
+}
+
+/* Radio/checkbox groups */
+.radio-group,
+.checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 4px;
+}
+.radio-group label,
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    font-weight: 400;
+}
+
+/* Inline two-column fields */
+.form-row-2col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+/* -----------------------------------------------------------------------------
+   Step 1 — Album Info
+   ----------------------------------------------------------------------------- */
+/* Album art */
+.album-art-field {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+}
+.album-art-field .art-upload-area {
+    flex: 1;
+}
+.album-art-preview {
+    width: 160px;
+    height: 160px;
+    border-radius: 12px;
+    border: 2px dashed rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.3);
+    flex-shrink: 0;
+}
+.album-art-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: none;
+}
+.album-art-preview.has-image {
+    border-style: solid;
+    border-color: rgba(255, 255, 255, 0.1);
+}
+.album-art-preview.has-image img {
+    display: block;
+}
+.album-art-preview .placeholder-icon {
+    font-size: 40px;
+    color: rgba(255, 255, 255, 0.2);
+}
+.album-art-preview.has-image .placeholder-icon {
+    display: none;
+}
+
+/* File input */
+.file-input {
+    padding: 10px;
+    border: 2px dashed rgba(255, 255, 255, 0.25);
+    border-radius: 8px;
+    width: 100%;
+    cursor: pointer;
+    transition: border-color 0.2s;
+    background: rgba(0, 0, 0, 0.3);
+    color: #fff;
+}
+.file-input:hover {
+    border-color: var(--color-hot-pink, #E237B2);
+}
+
+/* Distribution pills */
+.distro-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.distrobtn {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff !important;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    font-size: 12px;
+    padding: 8px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: 500;
+}
+.distrobtn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+.distrobtn:has(input:checked),
+.distrobtn.active {
+    background: var(--color-bright-blue, #2F6ED3) !important;
+    border-color: var(--color-bright-blue, #2F6ED3);
+    box-shadow: 0 2px 8px rgba(47, 110, 211, 0.3);
+}
+.distrobtn input[type="checkbox"] {
+    display: none;
+}
+
+/* Section card */
+.form-section {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 24px;
+}
+.form-section h3 {
+    font-size: 16px;
+    margin: 0 0 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.form-section h3 i {
+    color: var(--color-hot-pink, #E237B2);
+    font-size: 16px;
+}
+
+/* -----------------------------------------------------------------------------
+   Step 2 — Licensing
+   ----------------------------------------------------------------------------- */
+.license-option {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    margin-bottom: 16px;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+}
+.license-option:hover {
+    border-color: rgba(255, 255, 255, 0.25);
+}
+.license-option.is-active {
+    border-color: var(--color-hot-pink, #E237B2);
+    background: rgba(226, 55, 178, 0.06);
+}
+.license-option input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+.license-option .license-info h4 {
+    margin: 0 0 4px;
+    font-size: 16px;
+    color: #fff;
+}
+.license-option .license-info p {
+    margin: 0;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.55);
+}
+
+.licensing-warning {
+    font-size: 13px;
+    color: #fc8181;
+    margin-top: 8px;
+    display: none;
+}
+.licensing-warning.visible {
+    display: block;
+}
+
+.commercial-pricing {
+    margin-top: 16px;
+    padding: 16px 20px;
+    background: rgba(99, 102, 241, 0.08);
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    border-radius: 10px;
+    display: none;
+}
+.commercial-pricing.visible {
+    display: block;
+}
+.commercial-pricing .price-input-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    max-width: 200px;
+    margin-top: 8px;
+}
+.commercial-pricing .price-input-row span {
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.6);
+}
+.commercial-pricing .price-input-row input {
+    max-width: 140px;
+}
+
+/* -----------------------------------------------------------------------------
+   Step 3 — Songs
+   ----------------------------------------------------------------------------- */
+.songs-count-selector {
+    margin-bottom: 28px;
+}
+.songs-count-selector select {
+    width: 120px;
+}
+
+.song {
+    padding: 24px;
+    margin-bottom: 20px;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.tracknumber-div {
+    background: linear-gradient(135deg, rgba(226, 55, 178, 0.6) 0%, rgba(240, 145, 77, 0.6) 100%);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px 8px 0 0;
+    margin: -24px -24px 20px -24px;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+/* Upload button */
+.uploadbtn {
+    background: linear-gradient(135deg, var(--color-hot-pink, #E237B2) 0%, var(--color-orange, #F0914D) 100%);
+    color: white;
+    border: none;
+    padding: 10px 22px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13px;
+    transition: all 0.2s ease;
+    margin-top: 8px;
+}
+.uploadbtn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(226, 55, 178, 0.3);
+}
+.uploadbtn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Progress bar */
+.progress-container {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 10px 0;
+    height: 32px;
+    position: relative;
+}
+.progressBar {
+    background: linear-gradient(90deg, var(--color-bright-blue, #2F6ED3), #5a8fd4);
+    width: 0%;
+    height: 100%;
+    border-radius: 8px;
+    transition: width 0.3s ease-out;
+}
+.progressBar.success {
+    background: linear-gradient(90deg, #28a745, #5cb85c) !important;
+}
+.progressBar.error {
+    background: linear-gradient(90deg, #dc3545, #e4606d) !important;
+}
+.progress {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    font-weight: 600;
+    font-size: 12px;
+    z-index: 2;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+.filename {
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.8);
+    padding: 6px 0;
+    word-break: break-all;
+    font-size: 13px;
+}
+
+/* Upload status badge */
+.upload-status {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    margin-left: 8px;
+    vertical-align: middle;
+}
+.upload-status.uploading { background: #17a2b8; color: #fff; }
+.upload-status.success   { background: #28a745; color: #fff; }
+.upload-status.error     { background: #dc3545; color: #fff; }
+
+/* Genre and Mood pill buttons */
+.tag-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.tag-pill {
+    font-size: 12px;
+    line-height: 1;
+    padding: 9px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+    border: none;
+    color: white;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+.tag-pill input {
+    display: none;
+}
+.tag-pill.genre-pill {
+    background: var(--color-hot-pink, #E237B2);
+}
+.tag-pill.genre-pill:hover {
+    background: #c92a9a;
+}
+.tag-pill.genre-pill:has(input:checked) {
+    background: #9b1f79 !important;
+    box-shadow: 0 2px 8px rgba(155, 31, 121, 0.4);
+}
+.tag-pill.mood-pill {
+    background: var(--color-bright-blue, #2F6ED3);
+}
+.tag-pill.mood-pill:hover {
+    background: #2560b8;
+}
+.tag-pill.mood-pill:has(input:checked) {
+    background: #1a4a94 !important;
+    box-shadow: 0 2px 8px rgba(26, 74, 148, 0.4);
+}
+.tag-pill.is-disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+.visually-hidden {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+/* Song template (hidden until cloned) */
+.song-template {
+    display: none !important;
+}
+
+/* -----------------------------------------------------------------------------
+   Step 4 — Review
+   ----------------------------------------------------------------------------- */
+.review-section {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 20px;
+}
+.review-section h3 {
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0 0 14px;
+    font-family: var(--font-body, 'Inter', sans-serif);
+}
+.review-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    font-size: 14px;
+}
+.review-row:last-child {
+    border-bottom: none;
+}
+.review-row .review-label {
+    color: rgba(255, 255, 255, 0.5);
+}
+.review-row .review-value {
+    color: #fff;
+    font-weight: 500;
+    text-align: right;
+    max-width: 60%;
+}
+.review-album-art {
+    width: 100px;
+    height: 100px;
+    border-radius: 8px;
+    object-fit: cover;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.review-song-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    font-size: 14px;
+}
+.review-song-item:last-child {
+    border-bottom: none;
+}
+.review-song-num {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--color-hot-pink, #E237B2);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+    flex-shrink: 0;
+}
+.review-song-title {
+    color: #fff;
+    font-weight: 500;
+}
+.review-song-meta {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 12px;
+    margin-left: auto;
+}
+.review-song-status {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: 600;
+}
+.review-song-status.uploaded {
+    background: rgba(40, 167, 69, 0.2);
+    color: #5cb85c;
+}
+.review-song-status.missing {
+    background: rgba(220, 53, 69, 0.2);
+    color: #e4606d;
+}
+
+/* Terms checkboxes */
+.terms-group {
+    margin-top: 24px;
+}
+.terms-group label {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 12px;
+}
+.terms-group input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+
+/* Draft bar */
+.draft-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 16px;
+}
+.draft-bar .fml-btn-secondary {
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: transparent;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.draft-bar .fml-btn-secondary:hover {
+    border-color: rgba(255, 255, 255, 0.4);
+    color: #fff;
+}
+.fml-save-status {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.4);
+    transition: color 0.2s;
+}
+.fml-save-status.is-saved {
+    color: #5cb85c;
+}
+
+/* -----------------------------------------------------------------------------
+   Success message
+   ----------------------------------------------------------------------------- */
+.song-upload-success {
+    text-align: center;
+    padding: 40px 20px;
+    background: rgba(40, 167, 69, 0.1);
+    border: 1px solid rgba(40, 167, 69, 0.3);
+    border-radius: 16px;
+    margin: 40px auto;
+    max-width: 500px;
+}
+.song-upload-success i {
+    color: #28a745;
+    font-size: 48px;
+    margin-bottom: 16px;
+}
+.song-upload-success h2 {
+    color: #fff;
+    margin: 12px 0;
+}
+.song-upload-success p {
+    color: rgba(255, 255, 255, 0.7);
+}
+.song-upload-success .button {
+    display: inline-block;
+    padding: 12px 28px;
+    background: var(--gradient-brand, linear-gradient(135deg, #E237B2, #F0914D));
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: 600;
+    margin-top: 12px;
+    transition: all 0.2s;
+}
+.song-upload-success .button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(226, 55, 178, 0.3);
+}
+
+/* The upload page wrapper — contained, dark card matching account forms */
+.upload-page-wrap {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 24px 60px;
+    background: #1a1a2e;
+    border: 1px solid #404060;
+    border-radius: 16px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+/* Page header */
+.upload-header {
+    text-align: center;
+    margin-bottom: 32px;
+}
+.upload-header h1 {
+    color: #fff;
+    margin: 0 0 8px;
+    font-size: 28px;
+}
+.upload-header .step-subtitle {
+    color: rgba(255, 255, 255, 0.45);
+    margin: 0 0 16px;
+}
+.upload-header .fml-return-link {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 14px;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+.upload-header .fml-return-link:hover {
+    color: #fff;
+}
+
+/* Notice / error card (logged-out, artist not found, etc.) */
+.song-upload-notice {
+    text-align: center;
+    padding: 48px 24px;
+    background: #1a1a2e;
+    border: 1px solid #404060;
+    border-radius: 16px;
+    margin: 60px auto;
+    max-width: 460px;
+}
+.song-upload-notice i {
+    font-size: 48px;
+    color: var(--color-hot-pink, #E237B2);
+    margin-bottom: 16px;
+    display: block;
+}
+.song-upload-notice h2 {
+    color: #fff;
+    margin: 0 0 8px;
+    font-size: 22px;
+}
+.song-upload-notice p {
+    color: rgba(255, 255, 255, 0.55);
+    margin: 0 0 24px;
+    font-size: 15px;
+    line-height: 1.5;
+}
+.song-upload-notice .button {
+    display: inline-block;
+    padding: 12px 28px;
+    background: var(--gradient-brand, linear-gradient(135deg, #E237B2, #F0914D));
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+.song-upload-notice .button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(226, 55, 178, 0.3);
+    color: white;
+}
+
+/* Hidden utility */
+.hidden { display: none !important; }
+
+/* -----------------------------------------------------------------------------
+   Responsive
+   ----------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+    .wizard-progress li .step-label {
+        font-size: 10px;
+    }
+    .wizard-progress li .step-number {
+        width: 30px;
+        height: 30px;
+        font-size: 12px;
+    }
+    .form-row-2col {
+        grid-template-columns: 1fr;
+    }
+    .album-art-field {
+        flex-direction: column;
+    }
+    .album-art-preview {
+        width: 120px;
+        height: 120px;
+    }
+    .wizard-nav {
+        flex-direction: column-reverse;
+        gap: 12px;
+    }
+    .wizard-nav .wizard-btn {
+        width: 100%;
+        justify-content: center;
+    }
+    .review-row {
+        flex-direction: column;
+        gap: 4px;
+    }
+    .review-row .review-value {
+        text-align: left;
+        max-width: 100%;
+    }
+    .song {
+        padding: 16px;
+    }
+    .tracknumber-div {
+        margin: -16px -16px 16px -16px;
+        padding: 10px 16px;
+    }
+}
+@media (max-width: 480px) {
+    .upload-header h1 {
+        font-size: 22px;
+    }
+    .wizard-progress {
+        margin-bottom: 28px;
+    }
+}

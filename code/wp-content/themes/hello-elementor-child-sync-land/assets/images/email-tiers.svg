@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 130" fill="none">
+  <!-- CC-BY tier -->
+  <rect x="10" y="45" width="100" height="75" rx="10" fill="#1a1a2e" stroke="#818cf8" stroke-width="1.5"/>
+  <circle cx="60" cy="68" r="12" fill="none" stroke="#818cf8" stroke-width="1.5"/>
+  <text x="60" y="72" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#818cf8">CC</text>
+  <text x="60" y="96" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#ffffff">CC-BY</text>
+  <text x="60" y="112" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#9999b3">Free &#183; MP3</text>
+
+  <!-- Commercial Sync tier (featured) -->
+  <rect x="125" y="10" width="110" height="110" rx="10" fill="#1a1a2e" stroke="#6366f1" stroke-width="2"/>
+  <rect x="150" y="2" width="60" height="18" rx="9" fill="#6366f1"/>
+  <text x="180" y="14" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#ffffff">POPULAR</text>
+  <polygon points="180,38 192,58 168,58" fill="none" stroke="#6366f1" stroke-width="1.5" stroke-linejoin="round"/>
+  <circle cx="180" cy="52" r="4" fill="#6366f1"/>
+  <text x="180" y="80" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#ffffff">Commercial</text>
+  <text x="180" y="95" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#ffffff">Sync</text>
+  <text x="180" y="112" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#9999b3">Paid &#183; WAV</text>
+
+  <!-- Custom tier -->
+  <rect x="250" y="45" width="100" height="75" rx="10" fill="#1a1a2e" stroke="#818cf8" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <line x1="285" y1="65" x2="315" y2="65" stroke="#818cf8" stroke-width="1.5"/>
+  <line x1="285" y1="72" x2="315" y2="72" stroke="#818cf8" stroke-width="1.5"/>
+  <line x1="290" y1="79" x2="310" y2="79" stroke="#818cf8" stroke-width="1.5"/>
+  <text x="300" y="100" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#ffffff">Custom</text>
+  <text x="300" y="112" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#9999b3">Negotiated</text>
+</svg>
