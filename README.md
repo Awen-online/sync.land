@@ -1,32 +1,93 @@
 <p align="center">
-  <img src="https://objects-us-east-1.dream.io/website-backup-wsc/Assets/github/2-c17fd7.png" alt="Sync.Land Header">
+  <img src="https://www.sync.land/wp-content/uploads/2026/03/sync.land-logo-tag_transparent-1-1024x225.png" alt="Sync.Land - Music Licensing for the Metaverse" width="600">
 </p>
 
+<p align="center">
+  <a href="https://sync.land">sync.land</a> &bull;
+  <a href="https://projectcatalyst.io/funds/11/cardano-use-cases-concept/syncland-or-metaverse-and-video-game-music-licensing-awen">Catalyst Fund11</a> &bull;
+  <a href="https://awen.online">Awen</a>
+</p>
+
+---
+
 # Sync.Land | Metaverse & Video Game Music Licensing
-Website: https://sync.land
 
-Welcome to the official GitHub repository for Sync.Land, an innovative project created by Awen that is designed to revolutionize music licensing within video gaming industries.
+Sync.Land is an open-source music licensing platform where independent artists list tracks and licensees obtain **Creative Commons (CC-BY 4.0)** or paid **Non-Exclusive Sync** licenses, optionally backed by **Cardano NFTs** via NMKR, with **Stripe** payments.
 
-As digital realms and interactive experiences continue to evolve, so does the need for a seamless, fair, and efficient way to integrate music into these spaces. SyncLand, powered by the Awen platform, stands at the forefront of addressing this need, offering creators, developers, and musicians a unified solution to bring their auditory visions to life within virtual worlds.
+Built on WordPress, powered by blockchain, and funded by **Project Catalyst Fund11**.
 
+## Features
 
-### Our Vision
-Our goal is to redefine the way music is licensed and integrated into the metaverse and video games. Sync.Land aims to create a transparent, efficient, and equitable ecosystem where artists are fairly compensated, and developers can easily access and implement the perfect soundtrack for their digital environments.
+- **Instant CC-BY Licensing** -- Free Creative Commons licenses with auto-generated PDF certificates
+- **Paid Sync Licenses** -- Non-exclusive sync licenses for games, film, and metaverse projects via Stripe checkout
+- **NFT-Backed Licenses** -- Mint any license as a Cardano NFT through NMKR for on-chain proof of rights
+- **Persistent Music Player** -- Amplitude.js-powered sticky player with queue management, PJAX navigation for uninterrupted playback
+- **Artist Profiles** -- Upload tracks, manage releases, and track licensing activity
+- **REST API** -- OpenAPI 3.0 spec for external integrations (`/wp-json/FML/v1/`)
+- **DreamObjects S3 Storage** -- Audio files, artwork, and license PDFs stored on S3-compatible cloud storage
 
-### What Makes Sync.Land Unique?
-**Blockchain-Powered Licenses:** Utilize the security, transparency, and efficiency of blockchain to manage music licenses, ensuring artists are fairly compensated and developers can easily access the music they need.
+## Repository Structure
 
-**Community-Driven:** A project built with input from musicians, developers, and users to ensure it meets the needs of all stakeholders in the digital creation ecosystem.
+```
+sync.land/
+├── code/                    # Platform source code
+│   └── wp-content/
+│       ├── themes/hello-elementor-child-sync-land/   # Child theme (all custom code)
+│       └── plugins/fml-music-player/                 # Sticky music player plugin
+├── docs/                    # Project Catalyst milestone reports
+│   ├── M1_Initialization/   # Design docs, timeline, status report
+│   ├── M2_Development/      # Pilot marketing, test cases, status report
+│   ├── M3_Marketplace/      # Marketplace launch evidence
+│   ├── M4_API/              # API launch documentation
+│   └── M5_Finalization/     # Closeout report
+└── README.md
+```
 
-### Repository Structure
-This repository serves as the central hub for all project-related documentation, code, and resources. 
->[/docs](docs/README.md) - This section is packed with detailed documentation, including technical specifications, user guides, and design documents. 
+> **[/code](code/README.md)** -- Full technical documentation: installation, configuration, API endpoints, architecture
 >
->[/code](code/README.md) -  the source code for our website and other key software components that make Sync.Land tick. 
+> **[/docs](docs/README.md)** -- Catalyst milestone reports, design documents, and project timeline
 
-### Join the Revolution
-Sync.Land is more than a project; it's a movement towards creating a more vibrant, dynamic, and equitable digital world. Whether you're an artist looking to have your music heard in new realms, a developer seeking the perfect score for your next game, or an enthusiast passionate about the future of digital experiences, we invite you to join us.
+## Tech Stack
 
-For more information, to become part of our journey, or to share your ideas and feedback, reach out to us via email at info@sync.land
+| Layer | Technology |
+|-------|-----------|
+| Platform | WordPress 6.x + Elementor Pro |
+| Theme | Hello Elementor Child |
+| Audio | Amplitude.js (custom wrapper) |
+| Navigation | PJAX (seamless page transitions) |
+| 3D Visuals | Three.js (hero planet, particles) |
+| Payments | Stripe API |
+| Blockchain | Cardano via NMKR |
+| Storage | DreamObjects S3 |
+| Data | Pods plugin (custom post types) |
 
-Together, let's shape the future of music in the digital age!
+## Project Catalyst Fund11
+
+Sync.Land is funded by a **100,000 ADA** grant from [Cardano Project Catalyst Fund11](https://projectcatalyst.io/funds/11/cardano-use-cases-concept/syncland-or-metaverse-and-video-game-music-licensing-awen) under the **Cardano Use Cases** category.
+
+| Milestone | Focus | Status |
+|-----------|-------|--------|
+| M1 | Initialization -- Infrastructure & design | Approved |
+| M2 | Development -- Core features & pilot testing | Approved |
+| M3 | Marketplace Launch & API Development | In Progress |
+| M4 | Marketplace Updates & API Launch | Upcoming |
+| M5 | Finalization & Closeout | Upcoming |
+
+## Getting Started
+
+See **[code/README.md](code/README.md)** for full installation, configuration, and API documentation.
+
+## License
+
+Proprietary -- Sync.Land / Awen LLC
+
+---
+
+<p align="center">
+  <a href="https://awen.online">
+    <img src="https://awen.online/wp-content/uploads/2025/01/Awen-Logo-2.0-Full-Final.png" alt="Awen" width="120">
+  </a>
+</p>
+<p align="center">
+  Built by <a href="https://awen.online">Awen</a>
+</p>
