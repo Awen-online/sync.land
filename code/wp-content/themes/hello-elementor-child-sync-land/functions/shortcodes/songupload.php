@@ -45,8 +45,11 @@ function song_upload_shortcode( $atts ) {
     if ( isset( $_POST['rightsholder'] ) && isset( $_POST['termsandcopyright'] ) ) {
         // Nonce check
         if ( ! isset( $_POST['song_upload_nonce'] ) || ! wp_verify_nonce( $_POST['song_upload_nonce'], 'song_upload_action' ) ) {
+            fml_analytics_record_event( 'form_failed', [ 'form' => 'album_upload', 'reason' => 'nonce' ] );
             return '<p>Security check failed.</p>';
         }
+
+        $current_user_id = get_current_user_id();
 
         $albumTitle  = sanitize_text_field( $_POST['album-title'] );
         $albumDesc   = sanitize_textarea_field( $_POST['albumdescription'] );
@@ -57,11 +60,47 @@ function song_upload_shortcode( $atts ) {
         $distros     = isset( $_POST['distros'] ) && is_array( $_POST['distros'] )
             ? implode( ',', array_map( 'sanitize_text_field', $_POST['distros'] ) ) : '';
         $artist_id   = sanitize_text_field( $_POST['artistid'] );
+        $numoftracks = (int) ( $_POST['numberoftracks'] ?? 0 );
 
-        // Create album
+        fml_analytics_record_event( 'form_submitted', [
+            'form'        => 'album_upload',
+            'artist_id'   => $artist_id,
+            'album_title' => $albumTitle,
+            'track_count' => $numoftracks,
+        ] );
+
+        // Duplicate prevention: same user + same album title within 60s → return existing
+        global $wpdb;
+        $recent_dup_album = $wpdb->get_var( $wpdb->prepare(
+            "SELECT ID FROM {$wpdb->posts}
+             WHERE post_type = 'album'
+             AND post_author = %d
+             AND post_title = %s
+             AND post_status IN ('publish', 'draft', 'pending')
+             AND post_date_gmt >= DATE_SUB(UTC_TIMESTAMP(), INTERVAL 60 SECOND)
+             ORDER BY ID DESC LIMIT 1",
+            $current_user_id, $albumTitle
+        ) );
+        if ( $recent_dup_album ) {
+            fml_analytics_record_event( 'form_duplicate', [ 'form' => 'album_upload', 'album_id' => (int) $recent_dup_album ] );
+            ?>
+            <div class="upload-page-wrap">
+                <div class="song-upload-success">
+                    <i class="fas fa-check-circle"></i>
+                    <h2>Already Submitted</h2>
+                    <p>"<?php echo esc_html( $albumTitle ); ?>" was just submitted &mdash; only one submission is needed.</p>
+                    <a href="<?php echo esc_url( home_url( '/account/artists' ) ); ?>" class="button">Go to Artist Dashboard</a>
+                </div>
+            </div>
+            <?php
+            return ob_get_clean();
+        }
+
+        // Create album as draft — admin reviews before publishing
         $albumPod    = pods( 'album' );
         $new_album_id = $albumPod->add( [
             'post_title'   => $albumTitle,
+            'post_status'  => 'draft',
             'album_name'   => $albumTitle,
             'post_content' => $albumDesc,
             'user_ip'      => $userIP,
@@ -70,6 +109,11 @@ function song_upload_shortcode( $atts ) {
             'content_id'   => $contentID,
             'release_date' => $releasedate,
         ] );
+
+        if ( ! $new_album_id ) {
+            fml_analytics_record_event( 'form_failed', [ 'form' => 'album_upload', 'reason' => 'album_add_failed', 'album_title' => $albumTitle ] );
+            return '<p>Error creating album. Please try again.</p>';
+        }
 
         // Licensing meta
         $ccby_enabled       = ! empty( $_POST['ccby_enabled'] );
@@ -95,17 +139,18 @@ function song_upload_shortcode( $atts ) {
             $attachment_id = media_handle_upload( 'albumart', $new_album_id );
             if ( is_wp_error( $attachment_id ) ) {
                 error_log( 'Album art upload failed: ' . $attachment_id->get_error_message() );
+                fml_analytics_record_event( 'form_failed', [ 'form' => 'album_upload', 'reason' => 'album_art_upload_failed', 'error' => $attachment_id->get_error_message(), 'album_id' => (int) $new_album_id ] );
                 return '<p>Error uploading album art: ' . esc_html( $attachment_id->get_error_message() ) . '</p>';
             }
             $albumPod->save( [ 'cover_art' => $attachment_id ], null, $new_album_id );
             set_post_thumbnail( $new_album_id, $attachment_id );
         } else {
+            fml_analytics_record_event( 'form_failed', [ 'form' => 'album_upload', 'reason' => 'album_art_missing', 'album_id' => (int) $new_album_id ] );
             return '<p>Error: No album art uploaded.</p>';
         }
 
-        // Create songs
-        $songPod     = pods( 'song' );
-        $numoftracks = (int) $_POST['numberoftracks'];
+        // Create songs as drafts (will publish when admin approves album)
+        $songPod = pods( 'song' );
         for ( $i = 1; $i <= $numoftracks; $i++ ) {
             $wavormp3 = fml_ends_with( $_POST[ 'awslink' . $i ], '.wav' ) ? 'audio_url_lossless' : 'audio_url';
 
@@ -117,6 +162,7 @@ function song_upload_shortcode( $atts ) {
 
             $songPod->add( [
                 'post_title'   => sanitize_text_field( $_POST[ 'title' . $i ] ),
+                'post_status'  => 'draft',
                 'artist'       => $artist_id,
                 'album'        => $new_album_id,
                 'track_number' => $i,
@@ -130,10 +176,12 @@ function song_upload_shortcode( $atts ) {
             ] );
         }
 
-        // Publish
-        wp_update_post( [
-            'ID'          => $new_album_id,
-            'post_status' => 'publish',
+        // Album stays as draft — admin reviews and publishes via WP admin
+        fml_analytics_record_event( 'form_success', [
+            'form'        => 'album_upload',
+            'album_id'    => (int) $new_album_id,
+            'artist_id'   => $artist_id,
+            'track_count' => $numoftracks,
         ] );
 
         // Email notifications
@@ -159,8 +207,8 @@ function song_upload_shortcode( $atts ) {
         <div class="upload-page-wrap">
             <div class="song-upload-success">
                 <i class="fas fa-check-circle"></i>
-                <h2>Upload Complete!</h2>
-                <p>"<?php echo esc_html( $albumTitle ); ?>" (<?php echo $numoftracks; ?> <?php echo $numoftracks === 1 ? 'track' : 'tracks'; ?>) has been submitted.</p>
+                <h2>Submitted for Review</h2>
+                <p>"<?php echo esc_html( $albumTitle ); ?>" (<?php echo $numoftracks; ?> <?php echo $numoftracks === 1 ? 'track' : 'tracks'; ?>) has been submitted. We'll review and publish it soon &mdash; you'll get an email when it's live.</p>
                 <a href="<?php echo esc_url( home_url( '/account/artists' ) ); ?>" class="button">
                     Go to Artist Dashboard
                 </a>

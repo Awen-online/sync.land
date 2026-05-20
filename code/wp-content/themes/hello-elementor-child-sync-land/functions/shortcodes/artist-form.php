@@ -46,8 +46,11 @@ function fml_artist_form_shortcode($atts) {
             ?>
             <div class="fml-form-success">
                 <i class="fas fa-check-circle" style="color: #28a745; font-size: 40px; margin-bottom: 10px;"></i>
-                <h2>Artist Profile <?php echo $is_edit ? 'Updated' : 'Created'; ?> Successfully!</h2>
+                <h2>Artist Profile <?php echo $is_edit ? 'Updated' : 'Submitted'; ?> Successfully!</h2>
                 <p><?php echo esc_html($result['artist_name']); ?></p>
+                <?php if (!$is_edit): ?>
+                <p style="margin-top: 8px; font-size: 14px; opacity: 0.8;">Your profile is pending admin review and will appear publicly once approved. You can continue to upload music below.</p>
+                <?php endif; ?>
                 <div style="margin-top: 15px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
                     <a href="<?php echo esc_url(get_permalink($result['artist_id'])); ?>" class="button" style="background-color: #6366f1;">View Artist Page</a>
                     <a href="<?php echo esc_url(home_url('/account/artists')); ?>" class="button" style="background-color: #007bff;">Artist Dashboard</a>
@@ -197,14 +200,40 @@ add_shortcode('fml_artist_form', 'fml_artist_form_shortcode');
  * Process artist form submission.
  */
 function fml_process_artist_form($is_edit, $edit_id, $user_id, $current_user) {
+    $form_name = $is_edit ? 'artist_edit' : 'artist_create';
+
     // Verify nonce
     if (!isset($_POST['fml_artist_form_nonce']) || !wp_verify_nonce($_POST['fml_artist_form_nonce'], 'fml_artist_form_action')) {
+        fml_analytics_record_event('form_failed', ['form' => $form_name, 'reason' => 'nonce']);
         return ['success' => false, 'error' => 'Security check failed.'];
     }
 
+    fml_analytics_record_event('form_submitted', ['form' => $form_name, 'edit_id' => $is_edit ? $edit_id : null]);
+
     $artist_name = sanitize_text_field($_POST['artist_name'] ?? '');
     if (empty($artist_name)) {
+        fml_analytics_record_event('form_failed', ['form' => $form_name, 'reason' => 'empty_name']);
         return ['success' => false, 'error' => 'Artist name is required.'];
+    }
+
+    // Duplicate prevention: same user + same artist title within 60s → return existing post
+    if (!$is_edit) {
+        global $wpdb;
+        $recent_dup = $wpdb->get_var($wpdb->prepare(
+            "SELECT ID FROM {$wpdb->posts}
+             WHERE post_type = 'artist'
+             AND post_author = %d
+             AND post_title = %s
+             AND post_status IN ('publish', 'draft', 'pending')
+             AND post_date_gmt >= DATE_SUB(UTC_TIMESTAMP(), INTERVAL 60 SECOND)
+             ORDER BY ID DESC LIMIT 1",
+            $user_id,
+            $artist_name
+        ));
+        if ($recent_dup) {
+            fml_analytics_record_event('form_duplicate', ['form' => $form_name, 'artist_id' => (int) $recent_dup, 'title' => $artist_name]);
+            return ['success' => true, 'artist_id' => (int) $recent_dup, 'artist_name' => $artist_name];
+        }
     }
 
     $pod_data = [
@@ -230,13 +259,14 @@ function fml_process_artist_form($is_edit, $edit_id, $user_id, $current_user) {
         $pod->save($pod_data, null, $edit_id);
         $artist_id = $edit_id;
     } else {
-        $pod_data['post_status'] = 'publish';
+        $pod_data['post_status'] = 'draft';
         $pod_data['post_author'] = $user_id;
         $artist_id = $pod->add($pod_data);
         if (!$artist_id) {
+            fml_analytics_record_event('form_failed', ['form' => $form_name, 'reason' => 'pod_add_failed']);
             return ['success' => false, 'error' => 'Failed to create artist profile. Please try again.'];
         }
-        wp_update_post(['ID' => $artist_id, 'post_status' => 'publish']);
+        wp_update_post(['ID' => $artist_id, 'post_status' => 'draft']);
     }
 
     // Handle profile image upload
@@ -271,6 +301,8 @@ function fml_process_artist_form($is_edit, $edit_id, $user_id, $current_user) {
             'artist_id'   => $artist_id,
         ]);
     }
+
+    fml_analytics_record_event('form_success', ['form' => $form_name, 'artist_id' => (int) $artist_id, 'is_edit' => (bool) $is_edit]);
 
     return ['success' => true, 'artist_id' => $artist_id, 'artist_name' => $artist_name];
 }
