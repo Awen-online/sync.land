@@ -27,6 +27,10 @@
         // Build review when entering step 4
         if (n === 4) buildReview();
 
+        // Refresh live UI state for the new step
+        updateTagCounters();
+        updateNextButtonState();
+
         // Scroll to top of form
         $('html, body').animate({
             scrollTop: $('#songs-upload-form').offset().top - 20
@@ -48,80 +52,188 @@
     }
 
     /* =========================================================================
+       Inline error rendering (replaces alert() — alerts are silent on mobile)
+       ========================================================================= */
+
+    function showStepError(step, items) {
+        var $box = $('#wizard-step-' + step + '-error');
+        if (!$box.length) return;
+        if (!items || items.length === 0) {
+            $box.removeClass('is-visible').empty();
+            return;
+        }
+        var html = '<strong>Before continuing, please fix the following:</strong><ul>';
+        items.forEach(function (it) {
+            if (it.jumpTo) {
+                html += '<li><a class="error-jump" data-jump="' + it.jumpTo + '">' + escapeHtml(it.text) + '</a></li>';
+            } else {
+                html += '<li>' + escapeHtml(it.text) + '</li>';
+            }
+        });
+        html += '</ul>';
+        $box.html(html).addClass('is-visible');
+        $('html, body').animate({ scrollTop: $box.offset().top - 80 }, 250);
+    }
+
+    function clearStepError(step) {
+        $('#wizard-step-' + step + '-error').removeClass('is-visible').empty();
+    }
+
+    /* =========================================================================
+       Error collectors — return array of {text, jumpTo?} per step
+       ========================================================================= */
+
+    function getStep1Errors() {
+        var errors = [];
+        var $step = $('#wizard-step-1');
+        $step.find('input[required], select[required], textarea[required]').each(function () {
+            if (this.checkValidity()) return;
+            var $field = $(this).closest('.form-field, .album-art-field');
+            var label = $field.find('label').first().contents().filter(function () {
+                return this.nodeType === 3;
+            }).first().text().trim() || $field.find('label').first().text().trim() || this.name;
+            label = label.replace(/\s*\*\s*$/, '').trim();
+            var msg = this.validationMessage || 'is required';
+            errors.push({ text: label + ' — ' + msg });
+        });
+        return errors;
+    }
+
+    function getStep2Errors() {
+        var errors = [];
+        var ccby = $('#ccby-toggle').is(':checked');
+        var commercial = $('#commercial-licensing-toggle').is(':checked');
+        if (!ccby && !commercial) {
+            errors.push({ text: 'Choose at least one license type (CC-BY 4.0 or Commercial Sync).' });
+        }
+        return errors;
+    }
+
+    function getStep3Errors() {
+        var errors = [];
+        var songCount = $('#songs-upload .song').length;
+        if (songCount === 0) {
+            errors.push({ text: 'Please select the number of tracks first.' });
+            return errors;
+        }
+        $('#songs-upload .song').each(function (idx) {
+            var $song = $(this);
+            var trackNum = idx + 1;
+            var trackId = 'song-track-' + trackNum;
+            $song.attr('id', trackId);
+
+            var missing = [];
+            if (!$song.find('input[name="title' + trackNum + '"]').val()) missing.push('title');
+            if (!$song.find('input[name="explicit' + trackNum + '"]:checked').length) missing.push('explicit answer');
+            if (!$song.find('input[name="instrumental' + trackNum + '"]:checked').length) missing.push('instrumental answer');
+            if (!$song.find('input.awslink').val()) missing.push('audio file');
+            var moods = $song.find('.mood-checkbox:checked').length;
+            var genres = $song.find('.genre-checkbox:checked').length;
+            if (moods < 1) missing.push('mood (tap 1–3 pills)');
+            if (genres < 1) missing.push('genre (tap 1–3 pills)');
+
+            if (missing.length) {
+                errors.push({
+                    text: 'Track ' + trackNum + ' needs: ' + missing.join(', ') + '.',
+                    jumpTo: trackId
+                });
+            }
+        });
+        return errors;
+    }
+
+    function getStep4Errors() {
+        var errors = [];
+        if (!$('input[name="rightsholder"]').is(':checked')) {
+            errors.push({ text: 'Please confirm you are the rights-holder or authorized.' });
+        }
+        if (!$('input[name="termsandcopyright"]').is(':checked')) {
+            errors.push({ text: 'Please agree to the Terms of Use and Copyright Policy.' });
+        }
+        return errors;
+    }
+
+    /* =========================================================================
+       Live counters: update "Mood — N selected" badges and is-satisfied state
+       ========================================================================= */
+
+    function updateTagCounters() {
+        $('#songs-upload .song').each(function () {
+            var $song = $(this);
+            var moodCount = $song.find('.mood-checkbox:checked').length;
+            var genreCount = $song.find('.genre-checkbox:checked').length;
+            var $moodBadge = $song.find('[data-tag-count="mood"]');
+            var $genreBadge = $song.find('[data-tag-count="genre"]');
+            $moodBadge.find('.tag-count-value').text(moodCount);
+            $genreBadge.find('.tag-count-value').text(genreCount);
+            $moodBadge.toggleClass('is-satisfied', moodCount >= 1);
+            $genreBadge.toggleClass('is-satisfied', genreCount >= 1);
+        });
+    }
+
+    /* =========================================================================
+       Next/Submit button enabled state for the current step
+       ========================================================================= */
+
+    function updateNextButtonState() {
+        var errs = [];
+        if (currentStep === 1) errs = getStep1Errors();
+        else if (currentStep === 2) errs = getStep2Errors();
+        else if (currentStep === 3) errs = getStep3Errors();
+        else if (currentStep === 4) errs = getStep4Errors();
+
+        var $step = $('#wizard-step-' + currentStep);
+        $step.find('.wizard-btn-next, .wizard-btn-submit').prop('disabled', errs.length > 0);
+
+        // If errors box is already visible, refresh its content live as user edits
+        var $box = $('#wizard-step-' + currentStep + '-error');
+        if ($box.hasClass('is-visible')) {
+            if (errs.length === 0) clearStepError(currentStep);
+            else $box.find('ul').remove();
+            // re-render without scroll (only on validate click)
+            if (errs.length) {
+                var html = '<strong>Before continuing, please fix the following:</strong><ul>';
+                errs.forEach(function (it) {
+                    if (it.jumpTo) {
+                        html += '<li><a class="error-jump" data-jump="' + it.jumpTo + '">' + escapeHtml(it.text) + '</a></li>';
+                    } else {
+                        html += '<li>' + escapeHtml(it.text) + '</li>';
+                    }
+                });
+                html += '</ul>';
+                $box.html(html);
+            }
+        }
+    }
+
+    /* =========================================================================
        Per-Step Validation
        ========================================================================= */
 
     function validateStep(step) {
-        var $step = $('#wizard-step-' + step);
-        var valid = true;
+        var errs = [];
+        if (step === 1) errs = getStep1Errors();
+        else if (step === 2) errs = getStep2Errors();
+        else if (step === 3) errs = getStep3Errors();
+        else if (step === 4) errs = getStep4Errors();
 
-        // Use native HTML5 validation for required fields in this step
-        $step.find('input, select, textarea').filter('[required]').each(function () {
-            if (!this.checkValidity()) {
-                this.reportValidity();
-                valid = false;
-                return false; // break
-            }
-        });
+        if (errs.length) {
+            showStepError(step, errs);
+            // Flash red border on offending tracks
+            errs.forEach(function (e) {
+                if (e.jumpTo) {
+                    var $el = $('#' + e.jumpTo);
+                    $el.css('border-color', '#dc3545');
+                    setTimeout(function () { $el.css('border-color', ''); }, 5000);
+                }
+            });
+            return false;
+        }
+        clearStepError(step);
 
-        if (!valid) return false;
-
-        // Step-specific checks
         if (step === 2) {
-            // At least one license type
-            var ccby = $('#ccby-toggle').is(':checked');
-            var commercial = $('#commercial-licensing-toggle').is(':checked');
-            if (!ccby && !commercial) {
-                $('.licensing-warning').addClass('visible');
-                return false;
-            }
             $('.licensing-warning').removeClass('visible');
         }
-
-        if (step === 3) {
-            // Must have songs
-            var songCount = $('#songs-upload .song').length;
-            if (songCount === 0) {
-                alert('Please select the number of songs first.');
-                return false;
-            }
-            // Check all audio files uploaded
-            var missingAudio = false;
-            $('#songs-upload .song').each(function () {
-                var $song = $(this);
-                var awsVal = $song.find('input.awslink').val();
-                if (!awsVal) {
-                    missingAudio = true;
-                    $song.css('border-color', '#dc3545');
-                    setTimeout(function () {
-                        $song.css('border-color', '');
-                    }, 3000);
-                }
-            });
-            if (missingAudio) {
-                alert('Please upload audio files for all songs before continuing.');
-                return false;
-            }
-            // Validate mood/genre selection per song
-            var tagMissing = false;
-            $('#songs-upload .song').each(function () {
-                var $song = $(this);
-                var moods = $song.find('.mood-checkbox:checked').length;
-                var genres = $song.find('.genre-checkbox:checked').length;
-                if (moods < 1 || genres < 1) {
-                    tagMissing = true;
-                    $song.css('border-color', '#dc3545');
-                    setTimeout(function () {
-                        $song.css('border-color', '');
-                    }, 3000);
-                }
-            });
-            if (tagMissing) {
-                alert('Please select at least 1 mood and 1 genre for each song.');
-                return false;
-            }
-        }
-
         return true;
     }
 
@@ -189,6 +301,8 @@
 
         initializeSongUploads();
         initializeCheckboxLimits();
+        updateTagCounters();
+        updateNextButtonState();
     }
 
     /* =========================================================================
@@ -215,6 +329,8 @@
                 $boxes.prop('disabled', false)
                     .closest('.tag-pill').removeClass('is-disabled');
             }
+            updateTagCounters();
+            updateNextButtonState();
         });
     }
 
@@ -562,11 +678,25 @@
             });
             $(document).on('input change', '#songs-upload-form', function () {
                 draftStatus('Unsaved changes...', false);
+                updateTagCounters();
+                updateNextButtonState();
                 clearTimeout(window._fmlDraftTimer);
                 window._fmlDraftTimer = setTimeout(function () {
                     saveDraft(true);
                     draftStatus('Draft saved', true);
                 }, 800);
+            });
+
+            // Jump-to-track links inside inline error blocks
+            $(document).on('click', '.error-jump', function (e) {
+                e.preventDefault();
+                var id = $(this).data('jump');
+                var $target = $('#' + id);
+                if ($target.length) {
+                    $('html, body').animate({ scrollTop: $target.offset().top - 70 }, 300);
+                    $target.css('border-color', '#ffd166');
+                    setTimeout(function () { $target.css('border-color', ''); }, 2500);
+                }
             });
             $(document).on('click', '#fml-save-draft', function (e) {
                 e.preventDefault();

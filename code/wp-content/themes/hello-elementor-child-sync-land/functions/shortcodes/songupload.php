@@ -226,7 +226,7 @@ function song_upload_shortcode( $atts ) {
         'song-upload-styles',
         get_stylesheet_directory_uri() . '/assets/css/song-upload-styles.css',
         [],
-        '2.0'
+        '2.1'
     );
     wp_enqueue_script(
         'simple-upload',
@@ -239,7 +239,7 @@ function song_upload_shortcode( $atts ) {
         'song-upload-wizard',
         get_stylesheet_directory_uri() . '/assets/js/song-upload-wizard.js',
         [ 'jquery', 'simple-upload' ],
-        '2.0',
+        '2.1',
         true
     );
 
@@ -341,6 +341,8 @@ function song_upload_shortcode( $atts ) {
                     <label><input type="radio" name="youtube-contentID" value="I Don't Know" required> I Don't Know</label>
                 </div>
             </div>
+
+            <div class="wizard-step-error" id="wizard-step-1-error" role="alert" aria-live="polite"></div>
 
             <div class="wizard-nav">
                 <span></span>
@@ -458,8 +460,11 @@ function song_upload_shortcode( $atts ) {
                 </div>
 
                 <div class="form-section">
-                    <h3><i class="fas fa-heart"></i> Mood <span style="font-weight:400;font-size:12px;color:rgba(255,255,255,0.4);">(pick 1-3)</span></h3>
-                    <div class="tag-grid">
+                    <div class="tag-section-heading">
+                        <h3 style="margin:0;"><i class="fas fa-heart"></i> Mood</h3>
+                        <span class="tag-count" data-tag-count="mood" data-min="1" data-max="3">Pick 1&ndash;3 &mdash; <span class="tag-count-value">0</span> selected</span>
+                    </div>
+                    <div class="tag-grid" data-tag-grid="mood">
                         <?php
                         if ( $moodPod->total() > 0 ) {
                             $moodPod->reset();
@@ -476,8 +481,11 @@ function song_upload_shortcode( $atts ) {
                 </div>
 
                 <div class="form-section">
-                    <h3><i class="fas fa-guitar"></i> Genre <span style="font-weight:400;font-size:12px;color:rgba(255,255,255,0.4);">(pick 1-3)</span></h3>
-                    <div class="tag-grid">
+                    <div class="tag-section-heading">
+                        <h3 style="margin:0;"><i class="fas fa-guitar"></i> Genre</h3>
+                        <span class="tag-count" data-tag-count="genre" data-min="1" data-max="3">Pick 1&ndash;3 &mdash; <span class="tag-count-value">0</span> selected</span>
+                    </div>
+                    <div class="tag-grid" data-tag-grid="genre">
                         <?php
                         if ( $genrePod->total() > 0 ) {
                             $genrePod->reset();
@@ -496,6 +504,8 @@ function song_upload_shortcode( $atts ) {
                 <input class="awslink" type="hidden" name="awslink__IDX__">
             </div>
             <!-- /song-template -->
+
+            <div class="wizard-step-error" id="wizard-step-3-error" role="alert" aria-live="polite"></div>
 
             <div class="wizard-nav">
                 <button type="button" class="wizard-btn wizard-btn-back">
@@ -531,6 +541,8 @@ function song_upload_shortcode( $atts ) {
             <input class="numberoftracks" type="hidden" name="numberoftracks">
             <input type="hidden" name="artistid" value="<?php echo esc_attr( $artistID ); ?>">
             <?php wp_nonce_field( 'song_upload_action', 'song_upload_nonce' ); ?>
+
+            <div class="wizard-step-error" id="wizard-step-4-error" role="alert" aria-live="polite"></div>
 
             <div class="wizard-nav">
                 <button type="button" class="wizard-btn wizard-btn-back">
