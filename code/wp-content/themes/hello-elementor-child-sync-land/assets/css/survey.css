@@ -242,3 +242,150 @@
         font-size: 12px;
     }
 }
+
+/* =============================================================================
+   Inline survey form — [fml_survey_inline]
+   Reuses .fml-nps-btn, .fml-star-btn etc. from the modal; this only adds the
+   page-flow wrapper + per-question layout.
+   ============================================================================= */
+.fml-survey-inline {
+    max-width: 720px;
+    margin: 0 auto;
+    color: #e7ebf3;
+}
+.fml-survey-inline-lede {
+    text-align: center;
+    color: rgba(231,235,243,0.72);
+    margin: 0 0 32px;
+    font-size: 16px;
+    line-height: 1.55;
+}
+.fml-survey-inline-q {
+    border: 0;
+    margin: 0 0 28px;
+    padding: 24px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 12px;
+}
+.fml-survey-inline-q legend {
+    font-size: 18px;
+    font-weight: 700;
+    padding: 0;
+    margin-bottom: 8px;
+    color: #e7ebf3;
+}
+.fml-survey-inline-q .fml-survey-subtitle {
+    margin: 0 0 14px;
+    color: rgba(231,235,243,0.6);
+    font-size: 13px;
+}
+.fml-survey-inline .fml-nps-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 12px 0 4px;
+}
+.fml-survey-inline .fml-nps-btn,
+.fml-survey-inline .fml-star-btn {
+    background: rgba(255,255,255,0.06);
+    color: #e7ebf3;
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 10px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+    transition: all .15s ease;
+    min-width: 40px;
+}
+.fml-survey-inline .fml-star-btn { font-size: 24px; line-height: 1; padding: 6px 10px; }
+.fml-survey-inline .fml-nps-btn:hover,
+.fml-survey-inline .fml-star-btn:hover { background: rgba(255,255,255,0.12); }
+.fml-survey-inline .fml-nps-btn.selected,
+.fml-survey-inline .fml-star-btn.selected {
+    background: #e7565a;
+    border-color: #e7565a;
+    color: #fff;
+}
+.fml-survey-inline .fml-use-case-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+@media (max-width: 540px) {
+    .fml-survey-inline .fml-use-case-grid { grid-template-columns: 1fr; }
+}
+.fml-survey-inline .fml-checkbox-label,
+.fml-survey-inline .fml-radio-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    border: 1px solid transparent;
+    transition: border-color .15s ease;
+}
+.fml-survey-inline .fml-checkbox-label:hover,
+.fml-survey-inline .fml-radio-label:hover { border-color: rgba(255,255,255,0.15); }
+.fml-survey-inline .fml-checkbox-label input,
+.fml-survey-inline .fml-radio-label input { margin: 0; }
+.fml-survey-inline .fml-radio-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+@media (max-width: 540px) {
+    .fml-survey-inline .fml-radio-group { grid-template-columns: 1fr; }
+}
+.fml-survey-inline .fml-survey-textarea {
+    width: 100%;
+    background: rgba(255,255,255,0.04);
+    color: #e7ebf3;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 15px;
+    font-family: inherit;
+    resize: vertical;
+}
+.fml-survey-inline .fml-survey-textarea:focus {
+    outline: none;
+    border-color: #e7565a;
+}
+.fml-survey-inline-submit-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 12px;
+}
+.fml-survey-inline .fml-survey-submit {
+    background: #e7565a;
+    color: #fff;
+    border: 0;
+    padding: 14px 28px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .15s ease;
+}
+.fml-survey-inline .fml-survey-submit:hover { background: #ff7b80; }
+.fml-survey-inline .fml-survey-submit:disabled { opacity: 0.6; cursor: progress; }
+.fml-survey-inline-status {
+    color: rgba(231,235,243,0.7);
+    font-size: 14px;
+}
+.fml-survey-inline-thanks {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 48px 24px;
+    text-align: center;
+    color: #e7ebf3;
+}
+.fml-survey-inline-thanks h3 {
+    font-size: 28px;
+    margin: 0 0 12px;
+    color: #e7565a;
+}

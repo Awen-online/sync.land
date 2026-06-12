@@ -95,7 +95,7 @@ add_action('wp_body_open', 'add_loading_screen');
 //
 add_action('wp_enqueue_scripts', function() {
     
-    $style_version = '2.2'; // Change this to your desired version number
+    $style_version = '3.4'; // Change this to your desired version number
     
     //
     //ADD CSS
@@ -117,6 +117,8 @@ add_action('wp_enqueue_scripts', function() {
     wp_enqueue_style('songs-discovery-style', get_stylesheet_directory_uri() . '/assets/css/songs-discovery.css', array(), $style_version);
     wp_enqueue_style('fml-forms-style', get_stylesheet_directory_uri() . '/assets/css/forms.css', array(), $style_version);
     wp_enqueue_style('syncland-account-style', get_stylesheet_directory_uri() . '/assets/css/account.css', array(), $style_version);
+    wp_enqueue_style('syncland-artists-style', get_stylesheet_directory_uri() . '/assets/css/artists.css', array(), $style_version);
+    wp_enqueue_style('syncland-home-v2', get_stylesheet_directory_uri() . '/assets/css/syncland-home-v2.css', array(), $style_version);
     wp_enqueue_style('artist-form-style', get_stylesheet_directory_uri() . '/assets/css/artist-form.css', array(), $style_version);
 
     //
@@ -255,6 +257,7 @@ add_action('wp_footer', function() {
     wp_dequeue_style('urcma-frontend');
 }, 1);
 
+require get_stylesheet_directory().'/functions/signup-ux.php';
 require get_stylesheet_directory().'/functions/myaccount.php';
 require get_stylesheet_directory().'/functions/account/account-dashboard.php';
 // require get_stylesheet_directory().'/functions/forms.php'; // Replaced by shortcodes/artist-form.php
@@ -262,6 +265,7 @@ require get_stylesheet_directory().'/functions/shortcodes.php';
 require get_stylesheet_directory().'/functions/shortcodes/shortcodes_artists.php';
 require get_stylesheet_directory().'/functions/shortcodes/shortcodes_taxonomy_songs.php';
 require get_stylesheet_directory().'/functions/shortcodes-animation.php';
+require get_stylesheet_directory().'/functions/shortcodes/syncland-home-v2.php';
 require get_stylesheet_directory().'/functions/shortcodes/songupload.php';
 require get_stylesheet_directory().'/functions/shortcodes/album-grid.php';
 require get_stylesheet_directory().'/functions/shortcodes/artist-form.php';
@@ -281,6 +285,9 @@ require get_stylesheet_directory().'/functions/api/external.php';
 require get_stylesheet_directory().'/functions/api/search.php';
 require get_stylesheet_directory().'/functions/api/artists.php';
 require get_stylesheet_directory().'/functions/routes.php';
+
+// SEO — Music structured data (hooks into The SEO Framework)
+require get_stylesheet_directory().'/functions/seo/music-schema.php';
 
 // Waveform Generator
 require get_stylesheet_directory().'/functions/waveform-generator.php';
@@ -308,3 +315,5 @@ require get_stylesheet_directory().'/functions/admin/analytics-dashboard.php';
 require get_stylesheet_directory().'/functions/admin/email-settings.php';
 require get_stylesheet_directory().'/functions/admin/bulk-email.php';
 require get_stylesheet_directory().'/functions/admin/tag-coverage.php';
+require get_stylesheet_directory().'/functions/admin/license-columns.php';
+require get_stylesheet_directory().'/functions/admin/cpt-list-columns.php';

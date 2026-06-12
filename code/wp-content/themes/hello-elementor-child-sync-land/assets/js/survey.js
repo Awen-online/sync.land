@@ -55,13 +55,13 @@
     }
 
     function evaluateTriggers() {
-        if (isDismissed()) return;
-
-        // Manual trigger always wins
+        // Manual trigger always wins — even past a prior dismissal, because an explicit visit to a survey page (e.g. /contact-us/submit-feedback/) means the user opted in.
         if (checkManualTrigger()) {
             showSurvey('manual');
             return;
         }
+
+        if (isDismissed()) return;
 
         // Post-licensing
         if (checkPostLicensing()) {
@@ -258,7 +258,7 @@
     // Re-evaluate on PJAX navigation
     document.addEventListener('pjax:load', function() {
         setTimeout(function() {
-            if (checkManualTrigger() && !isDismissed()) {
+            if (checkManualTrigger()) {
                 showSurvey('manual');
             }
             if (checkPostLicensing() && !isDismissed()) {

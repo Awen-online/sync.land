@@ -209,7 +209,7 @@ function fml_has_valid_api_key() {
  * Returns true if allowed, false if rate limited
  */
 function fml_check_rate_limit($identifier = null) {
-    $rate_limit = defined('FML_API_RATE_LIMIT') ? FML_API_RATE_LIMIT : 100;
+    $rate_limit = defined('FML_API_RATE_LIMIT') ? FML_API_RATE_LIMIT : 1000;
     $rate_window = defined('FML_API_RATE_WINDOW') ? FML_API_RATE_WINDOW : 3600;
 
     // Identify client by API key or IP
@@ -266,7 +266,7 @@ function fml_get_client_ip() {
  * Get remaining rate limit info
  */
 function fml_get_rate_limit_info($identifier = null) {
-    $rate_limit = defined('FML_API_RATE_LIMIT') ? FML_API_RATE_LIMIT : 100;
+    $rate_limit = defined('FML_API_RATE_LIMIT') ? FML_API_RATE_LIMIT : 1000;
     $rate_window = defined('FML_API_RATE_WINDOW') ? FML_API_RATE_WINDOW : 3600;
 
     if (!$identifier) {
@@ -613,7 +613,7 @@ function fml_api_keys_admin_page() {
 
         <h2>Rate Limiting</h2>
         <p>
-            <strong>Current Limit:</strong> <?php echo defined('FML_API_RATE_LIMIT') ? FML_API_RATE_LIMIT : 100; ?> requests per hour<br>
+            <strong>Current Limit:</strong> <?php echo defined('FML_API_RATE_LIMIT') ? FML_API_RATE_LIMIT : 1000; ?> requests per hour<br>
             Configure in <code>wp-config.php</code>: <code>define('FML_API_RATE_LIMIT', 100);</code>
         </p>
     </div>

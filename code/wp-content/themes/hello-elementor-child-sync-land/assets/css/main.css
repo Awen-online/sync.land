@@ -262,3 +262,26 @@ button:hover,
     width: 100% !important;
     height: 100% !important;
 }
+/* =============================================================================
+   Non-Elementor template polish
+   The site-wide dark background now comes from the Elementor kit (post 3893).
+   These rules only handle the parts the kit can't reach: hello-elementor's
+   default page templates (/account/, /contact-us/submit-feedback/) which need
+   their #content to give short pages a sensible min-height and matching text.
+   ============================================================================= */
+body.user-registration-account .site-main,
+body.user-registration-account #content,
+body.page-template-default .site-main,
+body.page-template-default #content {
+    min-height: calc(100vh - 220px);
+    color: #e7ebf3;
+}
+body.user-registration-account .page-content,
+body.page-template-default .page-content {
+    padding: 32px 24px;
+    color: #e7ebf3;
+}
+body.user-registration-account .entry-title,
+body.page-template-default .entry-title {
+    color: #e7ebf3;
+}
