@@ -31,5 +31,23 @@ Here you can find links to all neccessary documentation for each of the mileston
 >
 >[Test Case: User Registration & Song Upload](M2_Development/Test_Case_-_User_Registration_and_Song_Upload.mp4) - a user can register and upload a song to the marketplace
 ### Milestone 3 - Marketplace Launch & API Development
+>[Project Status Report](M3_Marketplace/Sync.Land%20Project%20Status%20Report_M3.pdf) - Current project status
+>
+>[Project Timeline](M3_Marketplace/Sync.Land%20Project%20Timeline_M3.pdf) - updated project roadmap and timeline
+>
+>[User Feedback Report](M3_Marketplace/SyncLand_User_Feedback_Report_M3.pdf) - launch survey results, NPS, role-split feedback (licensee vs artist), admin dashboard + marketplace screenshots
+>
+>[Test Case: NFT License Purchase](M3_Marketplace/Test_Case_-_NFT_License_Purchase.mp4) - end-to-end demo of a public user purchasing a sync license NFT on Cardano's Pre-production Network
+>
+>[API Documentation](M3_Marketplace/SyncLand_API_Documentation_M3.pdf) - REST API reference for the Sync.Land platform (songs, artists, albums, licensing, NFT, payments, playlists) generated from the [OpenAPI 3.0 spec](../code/wp-content/themes/hello-elementor-child-sync-land/docs/api-spec.yaml)
+>
+>[Live Marketplace](https://sync.land) - the public website
+>
+>**Launch announcements** (Awen socials, 2026-06-22):
+>- [awen.online news post](https://awen.online/news/sync-land-launches-awens-peer-to-peer-music-licensing-platform-goes-live/) - Sync.Land launches: Awen's peer-to-peer music licensing platform goes live
+>- [X / Twitter](https://x.com/awen_online/status/2069076274098606574) - launch thread by @awen_online
+>- [LinkedIn](https://www.linkedin.com/posts/awenonline_the-wait-is-over-syncland-is-live-activity-7474841972634165248-u4_y) - "The wait is over — Sync.Land is live"
+>- [Instagram](https://www.instagram.com/p/DZ5Iym_ks9i/) - launch announcement post
+
 ### Milestone 4 - Marketplace Updates & API Launch
 ### Milestone 5 - Finalization
