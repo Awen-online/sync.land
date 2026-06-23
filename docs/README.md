@@ -35,9 +35,11 @@ Here you can find links to all neccessary documentation for each of the mileston
 >
 >[Project Timeline](M3_Marketplace/Sync.Land%20Project%20Timeline_M3.pdf) - updated project roadmap and timeline
 >
->[User Feedback Report](M3_Marketplace/SyncLand_User_Feedback_Report_M3.pdf) - launch survey results, NPS, role-split feedback (licensee vs artist), admin dashboard + marketplace screenshots
+>[User Feedback Report](M3_Marketplace/SyncLand_User_Feedback_Report_M3.pdf) - launch survey results, NPS, role-split feedback (licensee vs artist), admin dashboard screenshot
 >
->[Test Case: NFT License Purchase](M3_Marketplace/Test_Case_-_NFT_License_Purchase.mp4) - end-to-end demo of a public user purchasing a sync license NFT on Cardano's Pre-production Network
+>[Marketplace & On-Chain Evidence](M3_Marketplace/SyncLand_Marketplace_and_OnChain_Evidence_M3.pdf) - visual tour of the live marketplace (homepage, browse, song page, album page) plus the verbatim CIP-25 metadata, policy ID, asset name, and Cardanoscan link for the test case mint
+>
+>[Test Case: NFT License Purchase](M3_Marketplace/Test_Case_-_NFT_License_Purchase.mp4) - end-to-end demo of a public user purchasing a sync license NFT on Cardano's Pre-production Network (mirror: [YouTube unlisted](https://www.youtube.com/watch?v=yt-R_F1wTGM))
 >
 >[API Documentation](M3_Marketplace/SyncLand_API_Documentation_M3.pdf) - REST API reference for the Sync.Land platform (songs, artists, albums, licensing, NFT, payments, playlists) generated from the [OpenAPI 3.0 spec](../code/wp-content/themes/hello-elementor-child-sync-land/docs/api-spec.yaml)
 >
