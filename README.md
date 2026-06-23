@@ -79,7 +79,9 @@ See **[code/README.md](code/README.md)** for full installation, configuration, a
 
 ## License
 
-Proprietary -- Sync.Land / Awen LLC
+The code released in this repository is licensed under the **[MIT License](LICENSE)**, as committed in the Project Catalyst Fund 11 application. Copyright (c) 2026 Awen LLC.
+
+The hosted Sync.Land marketplace at [sync.land](https://sync.land), along with marketplace-specific business logic that is not part of this repository (Stripe checkout, NMKR minting pipeline, cart, admin tooling, transcoder, etc.), remains proprietary to Awen LLC.
 
 ---
 
