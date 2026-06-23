@@ -2,7 +2,7 @@
 
 > The Sync.Land platform is delivered as a hosted marketplace at
 > [https://sync.land](https://sync.land). This directory contains
-> **selected open-source components** released under the Apache License
+> **selected open-source components** released under the MIT License
 > 2.0 for community use, Catalyst Fund 11 transparency, and to give
 > integrators a working reference for the public REST API.
 >
@@ -15,7 +15,7 @@
 ```
 code/
 ├── README.md                         ← this file
-├── LICENSE                           ← Apache 2.0
+├── LICENSE                           ← MIT
 ├── docs/                             ← API documentation
 │   ├── api-spec.yaml                 ← OpenAPI 3.0 spec (full surface)
 │   ├── api-authentication.md         ← API key + nonce auth guide
@@ -80,7 +80,7 @@ will be created on theme switch.
 
 ## License
 
-Apache License 2.0 — see [LICENSE](LICENSE).
+MIT License — see [LICENSE](LICENSE).
 
 ## Project Catalyst
 

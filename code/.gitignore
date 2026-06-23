@@ -1,20 +1,24 @@
+# Allowlist gitignore for the `code/` snapshot. Track only what's curated for
+# the open-core release; ignore everything else that could end up here by
+# accident (uploads, vendor/, debug scratch, etc.).
+
 # Ignore everything by default
 *
-
-# Track our theme
-!wp-content/
-!wp-content/themes/
-!wp-content/themes/hello-elementor-child-sync-land/
-!wp-content/themes/hello-elementor-child-sync-land/**
-
-# Local-only debug/one-off scripts
-wp-content/themes/hello-elementor-child-sync-land/scripts/debug/
-
-# Track our music player plugin
-!wp-content/plugins/
-!wp-content/plugins/fml-music-player/
-!wp-content/plugins/fml-music-player/**
 
 # Track root files
 !.gitignore
 !README.md
+!LICENSE
+
+# Track the open-core docs (OpenAPI spec + setup notes)
+!docs/
+!docs/**
+
+# Track the curated open-core theme released alongside M3
+!wp-content/
+!wp-content/themes/
+!wp-content/themes/syncland-open-core/
+!wp-content/themes/syncland-open-core/**
+
+# Local-only debug/one-off scripts inside the theme don't ship
+wp-content/themes/syncland-open-core/scripts/debug/

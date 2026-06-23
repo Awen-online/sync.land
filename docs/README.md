@@ -50,6 +50,16 @@ Here you can find links to all neccessary documentation for each of the mileston
 >- [X / Twitter](https://x.com/awen_online/status/2069076274098606574) - launch thread by @awen_online
 >- [LinkedIn](https://www.linkedin.com/posts/awenonline_the-wait-is-over-syncland-is-live-activity-7474841972634165248-u4_y) - "The wait is over — Sync.Land is live"
 >- [Instagram](https://www.instagram.com/p/DZ5Iym_ks9i/) - launch announcement post
+>
+>**Platform code (open-core release, MIT)**:
+>- [`code/`](../code/) - top-level docs, LICENSE, and the curated open-core subset (~2,860 lines of PHP across 9 modules; the proprietary marketplace logic stays behind the hosted site at https://sync.land)
+>- [`code/wp-content/themes/syncland-open-core/`](../code/wp-content/themes/syncland-open-core/) - the open theme module map
+>  - [`functions/seo/music-schema.php`](../code/wp-content/themes/syncland-open-core/functions/seo/music-schema.php) - Schema.org JSON-LD (MusicRecording / MusicAlbum / MusicGroup)
+>  - [`functions/seo/dynamic-meta.php`](../code/wp-content/themes/syncland-open-core/functions/seo/dynamic-meta.php) - per-CPT title / description / og:image automation
+>  - [`functions/analytics/`](../code/wp-content/themes/syncland-open-core/functions/analytics/) - role-aware feedback survey schema + UI
+>  - [`functions/api/`](../code/wp-content/themes/syncland-open-core/functions/api/) - REST endpoints (analytics, security, songs, artists, search)
+>- [`code/docs/api-spec.yaml`](../code/docs/api-spec.yaml) - full OpenAPI 3.0 spec (also rendered as the API Documentation PDF above)
+>- [`LICENSE`](../LICENSE) / [`code/LICENSE`](../code/LICENSE) - MIT License (as declared in the Catalyst Fund 11 application)
 
 ### Milestone 4 - Marketplace Updates & API Launch
 ### Milestone 5 - Finalization
