@@ -1,0 +1,669 @@
+<title>Sync.Land OBS Player — Architecture &amp; Data Flow</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+  :root {
+    --paper: #F5F6FB;
+    --ink: #14161E;
+    --muted: #5A6272;
+    --line: #DDE1EE;
+    --card: #FFFFFF;
+    --diagram-bg: #EEF1F8;
+    --dock: #E237B2;
+    --api: #2F6ED3;
+    --dock-soft: rgba(226, 55, 178, 0.09);
+    --api-soft: rgba(47, 110, 211, 0.09);
+    --dock-line: rgba(226, 55, 178, 0.32);
+    --api-line: rgba(47, 110, 211, 0.32);
+    --warn: #C86A24;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #0D1220;
+      --ink: #E8EAF2;
+      --muted: #8F97AA;
+      --line: #232A3E;
+      --card: #151B2D;
+      --diagram-bg: #101627;
+      --dock: #F35BC5;
+      --api: #6D9BE8;
+      --dock-soft: rgba(243, 91, 197, 0.12);
+      --api-soft: rgba(109, 155, 232, 0.12);
+      --dock-line: rgba(243, 91, 197, 0.4);
+      --api-line: rgba(109, 155, 232, 0.4);
+      --warn: #F0914D;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #0D1220;
+    --ink: #E8EAF2;
+    --muted: #8F97AA;
+    --line: #232A3E;
+    --card: #151B2D;
+    --diagram-bg: #101627;
+    --dock: #F35BC5;
+    --api: #6D9BE8;
+    --dock-soft: rgba(243, 91, 197, 0.12);
+    --api-soft: rgba(109, 155, 232, 0.12);
+    --dock-line: rgba(243, 91, 197, 0.4);
+    --api-line: rgba(109, 155, 232, 0.4);
+    --warn: #F0914D;
+  }
+  :root[data-theme="light"] {
+    --paper: #F5F6FB;
+    --ink: #14161E;
+    --muted: #5A6272;
+    --line: #DDE1EE;
+    --card: #FFFFFF;
+    --diagram-bg: #EEF1F8;
+    --dock: #E237B2;
+    --api: #2F6ED3;
+    --dock-soft: rgba(226, 55, 178, 0.09);
+    --api-soft: rgba(47, 110, 211, 0.09);
+    --dock-line: rgba(226, 55, 178, 0.32);
+    --api-line: rgba(47, 110, 211, 0.32);
+    --warn: #C86A24;
+  }
+
+  html { color-scheme: light dark; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, "Segoe UI Variable Text", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    margin: 0;
+    padding: 0;
+  }
+  .wrap {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 56px 28px 96px;
+  }
+
+  /* Type scale */
+  h1 {
+    font-size: 40px;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    font-weight: 700;
+    margin: 0 0 10px;
+    text-wrap: balance;
+  }
+  h2 {
+    font-size: 24px;
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    font-weight: 700;
+    margin: 56px 0 18px;
+    text-wrap: balance;
+    scroll-margin-top: 24px;
+  }
+  h3 {
+    font-size: 17px;
+    line-height: 1.35;
+    letter-spacing: -0.005em;
+    font-weight: 700;
+    margin: 26px 0 10px;
+  }
+  p { margin: 0 0 14px; max-width: 68ch; }
+  .lead {
+    font-size: 18px;
+    color: var(--muted);
+    max-width: 62ch;
+    margin: 0 0 8px;
+  }
+
+  .eyebrow {
+    display: inline-block;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0 0 10px;
+    font-weight: 600;
+  }
+
+  code, kbd, .mono {
+    font-family: "JetBrains Mono", "SF Mono", "Cascadia Code", "Roboto Mono", Consolas, monospace;
+    font-size: 0.88em;
+  }
+  code {
+    background: var(--diagram-bg);
+    padding: 1px 6px;
+    border-radius: 4px;
+    border: 1px solid var(--line);
+    white-space: nowrap;
+  }
+  .dock-tag {
+    color: var(--dock);
+    font-weight: 700;
+    letter-spacing: 0.01em;
+  }
+  .api-tag {
+    color: var(--api);
+    font-weight: 700;
+    letter-spacing: 0.01em;
+  }
+
+  a { color: var(--api); text-decoration: none; border-bottom: 1px solid var(--api-line); }
+  a:hover { border-bottom-color: var(--api); }
+
+  /* Header */
+  .doc-header {
+    padding-bottom: 22px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 36px;
+  }
+  .doc-header .meta {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 14px;
+  }
+  .doc-header .meta span { display: inline-flex; align-items: center; gap: 6px; }
+  .doc-header .meta .dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--api);
+  }
+
+  /* TL;DR box */
+  .tldr {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--ink);
+    border-radius: 6px;
+    padding: 22px 24px;
+    font-size: 16.5px;
+    line-height: 1.6;
+    margin: 0 0 32px;
+  }
+  .tldr .eyebrow { margin-bottom: 8px; }
+  .tldr strong { color: var(--ink); }
+
+  /* Split cards for dock vs streamer */
+  .split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 18px 0 8px;
+  }
+  @media (max-width: 720px) {
+    .split { grid-template-columns: 1fr; }
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 18px 20px;
+  }
+  .card.dock-card {
+    border-left: 3px solid var(--dock);
+    background: linear-gradient(90deg, var(--dock-soft), var(--card) 55%);
+  }
+  .card.api-card {
+    border-left: 3px solid var(--api);
+    background: linear-gradient(90deg, var(--api-soft), var(--card) 55%);
+  }
+  .card h3 { margin-top: 0; }
+  .card h3 .role {
+    display: inline-block;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 3px;
+    margin-left: 8px;
+    font-weight: 600;
+    vertical-align: 2px;
+  }
+  .card.dock-card .role {
+    background: var(--dock-soft);
+    color: var(--dock);
+    border: 1px solid var(--dock-line);
+  }
+  .card.api-card .role {
+    background: var(--api-soft);
+    color: var(--api);
+    border: 1px solid var(--api-line);
+  }
+  .card p { margin-bottom: 0; font-size: 14.5px; }
+  .card p + p { margin-top: 10px; }
+
+  /* Glossary */
+  .glossary {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+    margin: 18px 0;
+  }
+  .term {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 14px 18px;
+  }
+  .term dt {
+    font-weight: 700;
+    font-size: 14.5px;
+    display: inline;
+  }
+  .term dd {
+    margin: 4px 0 0;
+    color: var(--muted);
+    font-size: 14.5px;
+  }
+  .term.dual dt::after {
+    content: "  ·  dual meaning";
+    color: var(--warn);
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-left: 8px;
+    vertical-align: 2px;
+  }
+
+  /* Diagrams */
+  .diagram-frame {
+    background: var(--diagram-bg);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 22px 20px 18px;
+    margin: 14px 0 8px;
+    overflow-x: auto;
+  }
+  .diagram-frame pre.mermaid {
+    background: transparent;
+    text-align: center;
+    margin: 0;
+    min-width: max-content;
+    color: var(--ink);
+    font-family: -apple-system, "Segoe UI", sans-serif;
+    font-size: 13px;
+  }
+  .diagram-caption {
+    font-size: 12.5px;
+    color: var(--muted);
+    margin: 8px 4px 0;
+    text-align: center;
+  }
+
+  /* Numbered flow markers — meaningful because these ARE sequential */
+  .flow-marker {
+    display: inline-block;
+    font-family: "JetBrains Mono", "SF Mono", Consolas, monospace;
+    color: var(--muted);
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    margin-right: 10px;
+    font-weight: 600;
+  }
+
+  /* Tables */
+  .table-wrap { overflow-x: auto; margin: 12px 0; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    overflow: hidden;
+    font-variant-numeric: tabular-nums;
+  }
+  thead {
+    background: var(--diagram-bg);
+    text-align: left;
+  }
+  th, td {
+    padding: 10px 14px;
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px solid var(--line);
+  }
+  tr:last-child td { border-bottom: none; }
+  th {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 700;
+  }
+  td code { white-space: nowrap; font-size: 12.5px; }
+  .method {
+    display: inline-block;
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+  .method.get { background: var(--api-soft); color: var(--api); border: 1px solid var(--api-line); }
+  .method.post { background: var(--dock-soft); color: var(--dock); border: 1px solid var(--dock-line); }
+  .method.delete { background: rgba(200, 106, 36, 0.14); color: var(--warn); border: 1px solid rgba(200, 106, 36, 0.35); }
+
+  /* Security bullets */
+  ul.crisp {
+    list-style: none;
+    padding: 0;
+    margin: 12px 0;
+  }
+  ul.crisp li {
+    padding: 8px 0 8px 22px;
+    position: relative;
+    border-bottom: 1px dotted var(--line);
+    font-size: 14.5px;
+  }
+  ul.crisp li:last-child { border-bottom: none; }
+  ul.crisp li::before {
+    content: "";
+    position: absolute;
+    left: 4px;
+    top: 15px;
+    width: 6px;
+    height: 6px;
+    background: var(--api);
+    border-radius: 50%;
+  }
+
+  /* M4 mapping */
+  .m4-note {
+    margin-top: 32px;
+    padding: 20px 22px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-top: 3px solid var(--api);
+    border-radius: 6px;
+    font-size: 14.5px;
+    color: var(--muted);
+  }
+  .m4-note strong { color: var(--ink); }
+
+  hr.rule {
+    border: none;
+    height: 1px;
+    background: var(--line);
+    margin: 48px 0;
+  }
+
+  .foot {
+    margin-top: 60px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    font-size: 12.5px;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+</style>
+
+<div class="wrap">
+
+  <header class="doc-header">
+    <div class="eyebrow">Sync.Land · Catalyst Project #1100272 · M4 Documentation</div>
+    <h1>OBS Player &mdash; Architecture &amp; Data Flow</h1>
+    <p class="lead">How the <span class="dock-tag">dock</span> (frontend) and the <span class="api-tag">streamer API</span> (backend) fit together to license, stream, and audit music playback during a live broadcast.</p>
+    <div class="meta">
+      <span><span class="dot" style="background: var(--dock);"></span>Frontend repo: <code>Awen-online/syncland-obs-player</code></span>
+      <span><span class="dot"></span>Backend mu-plugin: <code>syncland-streamer-api.php</code></span>
+    </div>
+  </header>
+
+  <div class="tldr">
+    <div class="eyebrow">TL;DR</div>
+    The Sync.Land OBS Player is two components working together: a <strong class="dock-tag">dock</strong> &mdash; the frontend SPA loaded as a browser panel inside OBS Studio &mdash; and a <strong class="api-tag">streamer API</strong> &mdash; the PAT-authenticated backend that hands it playlists, per-track license clearance, and stream URLs. The dock is what the streamer sees. The streamer API is what makes it work. Both live under one system called <em>Sync.Land OBS Player</em>.
+  </div>
+
+  <h2>1 &middot; The two halves at a glance</h2>
+  <div class="split">
+    <div class="card dock-card">
+      <h3>The dock <span class="role">Frontend</span></h3>
+      <p>A static Vite-built single-page app. Runs in the browser context that OBS Studio embeds in its Custom Browser Dock panel.</p>
+      <p>Hosted at <code>sync.land/dock/</code>. Holds no secrets. Receives a Personal Access Token (PAT) from the streamer, stashes it in <code>localStorage</code>, and Bearer-auths every backend call. Ships from <code>Awen-online/syncland-obs-player</code> under Apache 2.0.</p>
+    </div>
+    <div class="card api-card">
+      <h3>The streamer API <span class="role">Backend</span></h3>
+      <p>A REST API namespace at <code>/wp-json/FML/v1/streamer/*</code>, implemented as the <code>syncland-streamer-api.php</code> mu-plugin on the Sync.Land WordPress node.</p>
+      <p>Validates the PAT against <code>wp_streamer_tokens</code>, resolves the caller to a WordPress user, and returns only that user&rsquo;s playlists / their songs&rsquo; SLFS-v1 clearance. Every response is CORS-open because the PAT is the security boundary, not the origin.</p>
+    </div>
+  </div>
+
+  <h2>2 &middot; Glossary &mdash; two words with two meanings</h2>
+  <p>Both of the words in the project name overload two concepts. Worth pinning explicitly so nothing gets confused later.</p>
+
+  <dl class="glossary">
+    <div class="term dual">
+      <dt>Dock</dt>
+      <dd><strong>1.</strong> OBS Studio&rsquo;s built-in <em>Custom Browser Dock</em> &mdash; a panel type inside OBS that loads any URL you give it. Any OBS user can add one.</dd>
+      <dd><strong>2.</strong> The <span class="dock-tag">Sync.Land Dock SPA</span> &mdash; the frontend web app at <code>sync.land/dock/</code> that a streamer loads <em>into</em> that OBS panel. This project&rsquo;s frontend.</dd>
+    </div>
+    <div class="term dual">
+      <dt>Streamer</dt>
+      <dd><strong>1.</strong> The person broadcasting on Twitch or YouTube Live &mdash; the end user of this system.</dd>
+      <dd><strong>2.</strong> The <span class="api-tag"><code>/streamer/*</code> REST API namespace</span> on Sync.Land &mdash; the backend endpoints that serve the dock. Named after who they&rsquo;re for.</dd>
+    </div>
+    <div class="term">
+      <dt>PAT</dt>
+      <dd>Personal Access Token. Format <code>sk_syncland_&lt;40 chars&gt;</code>, 53 chars total. Server stores SHA-256 hex only; plaintext shown exactly once at creation. Bearer credential for every dock&rarr;API call.</dd>
+    </div>
+    <div class="term">
+      <dt>SLFS-v1</dt>
+      <dd>Sync.Land Free Sync License, version <code>SLFS-v1.0-2026-07-11</code>. The tier that permits creator-scale live-stream use with attribution. Every track played through the dock is deemed licensed under it.</dd>
+    </div>
+    <div class="term">
+      <dt>Attribution overlay</dt>
+      <dd>When the dock is loaded as an OBS <em>Browser Source</em> (not a dock), it strips its UI to just the current attribution string &mdash; e.g. <code>Music: Cullah &mdash; via Sync.Land &mdash; sync.land/song/parietals</code>. The streamer places this on-scene so the on-air attribution meets SLFS-v1 &sect;6.</dd>
+    </div>
+  </dl>
+
+  <h2>3 &middot; System components</h2>
+  <p>Five moving parts. Two are inside OBS on the streamer&rsquo;s machine; three are on Sync.Land infrastructure.</p>
+
+  <div class="diagram-frame">
+    <pre class="mermaid">
+graph TB
+    subgraph OBS["🖥  OBS Studio (streamer's machine)"]
+      D["Custom Browser Dock<br/>loads /dock/"]
+      B["Browser Source<br/>loads /dock/?mode=overlay"]
+    end
+    subgraph Node["☁  sync.land WordPress node"]
+      SPA["Sync.Land Dock SPA<br/>static bundle at /dock/"]
+      API["REST API<br/>/wp-json/FML/v1/streamer/*<br/>syncland-streamer-api.php"]
+      DB[("MySQL<br/>wp_streamer_tokens<br/>wp_posts + wp_postmeta<br/>wp_fml_analytics_events")]
+    end
+    S3[("🎵 DreamObjects S3<br/>fml-songs bucket<br/>public MP3 objects")]
+    D  -- loads via HTTPS --> SPA
+    B  -- loads via HTTPS --> SPA
+    SPA -- "Bearer PAT" --> API
+    API -- reads/writes --> DB
+    SPA -- "&lt;audio&gt; streams" --> S3
+    classDef dock fill:#F35BC522,stroke:#F35BC5,color:#F35BC5
+    classDef api  fill:#6D9BE822,stroke:#6D9BE8,color:#6D9BE8
+    classDef store fill:#00000010,stroke:#8F97AA,color:#8F97AA
+    class D,B,SPA dock
+    class API api
+    class DB,S3 store
+    </pre>
+  </div>
+  <p class="diagram-caption">Magenta = frontend (dock) surface. Blue = backend (streamer API) surface. Grey = data stores.</p>
+
+  <h2>4 &middot; Data flow &mdash; provisioning a token</h2>
+  <p>One-time, out-of-band. Happens once per streamer, in the browser at <code>sync.land/account/tokens/</code>. The dock never sees this flow &mdash; it starts with a PAT already in hand.</p>
+
+  <div class="diagram-frame">
+    <pre class="mermaid">
+sequenceDiagram
+    autonumber
+    participant U as Streamer
+    participant W as sync.land<br/>/account/tokens/
+    participant DB as wp_streamer_tokens
+    U->>W: Sign in, click "Generate token"
+    W->>W: random_bytes(30)<br/>prefix "sk_syncland_"
+    W->>DB: INSERT SHA-256(token), prefix, name, user_id
+    W-->>U: Plaintext PAT (shown once)
+    Note over U: Streamer copies PAT<br/>and pastes into the dock
+    </pre>
+  </div>
+  <p class="diagram-caption">The server never stores or retransmits the plaintext PAT. If lost, the streamer generates a new one; if compromised, the streamer revokes it by <code>id</code> or <code>prefix</code>.</p>
+
+  <h2>5 &middot; Data flow &mdash; runtime cycle</h2>
+  <p>Every session in OBS follows this shape: sign-in, playlist load, per-track playback loop with license check and audit logging.</p>
+
+  <div class="diagram-frame">
+    <pre class="mermaid">
+sequenceDiagram
+    autonumber
+    participant OBS as OBS Studio
+    participant DK as Dock SPA
+    participant API as /streamer/* API
+    participant S3 as fml-songs S3
+    participant DB as Analytics DB
+    OBS->>DK: Load sync.land/dock/
+    DK->>DK: Read PAT from localStorage<br/>(or prompt user)
+    DK->>API: GET /streamer/me<br/>Authorization: Bearer sk_syncland_...
+    API-->>DK: {user_id, display_name, artist_ids}
+    DK->>API: GET /streamer/playlists
+    API-->>DK: {playlists[], tracks{}}<br/>title, artist, duration, cover_url
+    Note over DK: User picks a playlist
+    loop each track
+      DK->>API: GET /streamer/track/{id}/clearance
+      API-->>DK: {can_stream, tier: SLFS-v1,<br/>attribution_text, stream_url}
+      alt can_stream = true
+        DK->>S3: GET stream_url  (public MP3)
+        S3-->>DK: Audio stream
+        Note over DK: HTMLAudioElement plays<br/>Attribution renders on overlay
+        DK->>API: POST /streamer/track/{id}/played
+        API->>DB: INSERT stream_play event<br/>(user_id, song_id, seconds, via=obs_player)
+      else can_stream = false
+        Note over DK: Skip to next track,<br/>show reason_if_blocked
+      end
+    end
+    </pre>
+  </div>
+  <p class="diagram-caption">Every track is license-checked immediately before playback. A track that fails the check is skipped, never played &mdash; so a paused or removed track can never end up on-air.</p>
+
+  <h2>6 &middot; API surface</h2>
+  <p>All endpoints live under <code>/wp-json/FML/v1/streamer/*</code>. The <span class="dock-tag">dock</span> talks only to the top four; the bottom three exist for the same-origin <code>/account/tokens/</code> page that mints and revokes tokens.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Method</th>
+          <th>Endpoint</th>
+          <th>Auth</th>
+          <th>Purpose</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="method get">GET</span></td>
+          <td><code>/streamer/me</code></td>
+          <td>PAT</td>
+          <td>Sanity-check the token, return caller identity.</td>
+        </tr>
+        <tr>
+          <td><span class="method get">GET</span></td>
+          <td><code>/streamer/playlists</code></td>
+          <td>PAT</td>
+          <td>List the streamer&rsquo;s playlists with track lists, cover art, and per-track duration.</td>
+        </tr>
+        <tr>
+          <td><span class="method get">GET</span></td>
+          <td><code>/streamer/track/{id}/clearance</code></td>
+          <td>PAT</td>
+          <td>Per-track license check + stream URL + attribution text + album + duration + cover.</td>
+        </tr>
+        <tr>
+          <td><span class="method post">POST</span></td>
+          <td><code>/streamer/track/{id}/played</code></td>
+          <td>PAT</td>
+          <td>Log a play event to the analytics audit trail (fire-and-forget).</td>
+        </tr>
+        <tr>
+          <td><span class="method get">GET</span></td>
+          <td><code>/streamer/tokens</code></td>
+          <td>WP nonce</td>
+          <td>List existing PATs (same-origin, for the account UI).</td>
+        </tr>
+        <tr>
+          <td><span class="method post">POST</span></td>
+          <td><code>/streamer/tokens</code></td>
+          <td>WP nonce</td>
+          <td>Create a new PAT.</td>
+        </tr>
+        <tr>
+          <td><span class="method delete">DELETE</span></td>
+          <td><code>/streamer/tokens/{id}</code></td>
+          <td>WP nonce</td>
+          <td>Revoke a PAT.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>7 &middot; Security model</h2>
+  <ul class="crisp">
+    <li>PATs are stored server-side as SHA-256 hex only. The plaintext is shown exactly once at creation, then unrecoverable.</li>
+    <li>Every PAT row carries a public 16-char prefix (<code>sk_syncland_abcd</code>) so the streamer can identify and revoke a specific one without seeing the whole token again.</li>
+    <li><code>/streamer/*</code> responses reflect the caller <code>Origin</code> via <code>Access-Control-Allow-Origin</code>. That&rsquo;s safe because the PAT is the security boundary &mdash; origin restriction adds no real defense against an attacker who holds a valid token, but it does block legitimate self-hosted dock mirrors.</li>
+    <li>The SPA holds the PAT only in browser <code>localStorage</code>, scoped to the dock&rsquo;s origin. It is never posted to any endpoint except the Sync.Land API. Revoking a token invalidates it server-side even if the browser still has it.</li>
+    <li>Token-management endpoints (<code>/streamer/tokens</code>) are <strong>same-origin only</strong> (WP nonce auth). A stolen PAT cannot mint or revoke other PATs &mdash; only the account UI running under a live <code>sync.land</code> session can.</li>
+    <li>No session cookies, no server-side per-request state, no OAuth complexity. v0.2 will add OAuth2/PKCE as an alternative for streamers who prefer not to handle tokens directly.</li>
+  </ul>
+
+  <hr class="rule">
+
+  <h2>8 &middot; What this proves for M4</h2>
+  <p>M4 (Marketplace Updates &amp; API Launch, 20,000 ADA) has four acceptance criteria. This system contributes concrete evidence to three of them.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 40%;">M4 criterion</th>
+          <th>Where the system proves it</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>External application verifies a sync license via public API</strong></td>
+          <td>Every <code>GET /streamer/track/{id}/clearance</code> call is exactly this &mdash; a fully external OBS instance receives a machine-readable SLFS-v1 clearance response with tier, attribution text, and stream URL. The dock demonstrates it end-to-end on air.</td>
+        </tr>
+        <tr>
+          <td><strong>Continuous API optimization post-launch</strong></td>
+          <td>Enrichment shipped 2026-07-15: playlist response now includes <code>cover_url</code>, per-track <code>duration</code>, and playlist-level cover; clearance response now includes <code>album</code>, <code>duration</code>, and <code>cover_url</code>. Cross-origin CORS added to enable third-party dock hosts.</td>
+        </tr>
+        <tr>
+          <td><strong>Ongoing documentation</strong></td>
+          <td>This artifact + <code>docs/api.md</code> and <code>docs/streamer-setup.md</code> in the OBS Player repo + the mu-plugin&rsquo;s inline REST docstring.</td>
+        </tr>
+        <tr>
+          <td><strong>User-feedback mechanisms</strong></td>
+          <td>Every playback session writes a <code>stream_play</code> row to <code>wp_fml_analytics_events</code> with <code>via=obs_player</code> &mdash; a real usage signal separate from marketplace browsing. Feeds the M4 User Feedback Report.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="m4-note">
+    <strong>For M4 submission:</strong> pair this architecture doc with the demo video (streamer opens dock in OBS, pastes PAT, plays a track, attribution renders on the scene, analytics row appears in admin), the OpenAPI spec update covering the enriched fields, and a screenshot of a <code>stream_play</code> event in the Sync.Land admin analytics dashboard.
+  </div>
+
+  <div class="foot">
+    <span>Sync.Land · Awen LLC · Cardano Project Catalyst Fund 11</span>
+    <span>Doc version 1.0 &middot; 2026-07-15</span>
+  </div>
+
+</div>

@@ -1,0 +1,202 @@
+/* Sync.Land Milestone 4 print stylesheet — modeled on the M3 pattern.
+ * Banner masthead + right-aligned metadata block + numbered sections. */
+
+@page {
+  size: Letter;
+  margin: 0.7in 0.85in 0.9in 0.85in;
+}
+* { box-sizing: border-box; }
+html { font-size: 10.5pt; }
+body {
+  font-family: "Segoe UI", "Calibri", "Helvetica Neue", "Arial", sans-serif;
+  color: #1a1e2b;
+  line-height: 1.5;
+  margin: 0;
+  padding: 0;
+  background: #fff;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* ---------- MASTHEAD ---------- */
+.masthead {
+  margin: 0 0 22pt;
+  page-break-after: avoid;
+}
+.masthead .banner {
+  width: 100%;
+  max-height: 88pt;
+  object-fit: cover;
+  display: block;
+  border-radius: 2pt;
+}
+.masthead .title-block {
+  padding: 12pt 0 0;
+  border-bottom: 1.5pt solid #212C9A;
+  padding-bottom: 8pt;
+}
+.masthead .title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24pt;
+  margin-bottom: 6pt;
+}
+.masthead .title {
+  font-size: 12pt;
+  font-weight: 500;
+  color: #5A6272;
+  font-style: italic;
+  margin-bottom: 2pt;
+}
+.masthead .subtitle {
+  font-size: 18pt;
+  font-weight: 800;
+  color: #14161E;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  line-height: 1.15;
+  max-width: 60%;
+}
+.masthead .right {
+  text-align: right;
+  font-size: 9pt;
+  color: #14161E;
+  line-height: 1.5;
+  flex: 0 0 auto;
+  padding-top: 2pt;
+}
+.masthead .right strong { color: #212C9A; }
+.masthead .prepared-by {
+  font-size: 8.5pt;
+  color: #5A6272;
+  padding-top: 4pt;
+  border-top: 0.5pt solid #DDE1EE;
+  margin-top: 4pt;
+}
+.masthead .prepared-by a { color: #2F6ED3; text-decoration: none; }
+
+/* ---------- HEADINGS ---------- */
+main > h1 { display: none; }  /* If a document sneaks in a top H1, hide it — masthead owns the title. */
+h2 {
+  font-size: 14pt;
+  font-weight: 700;
+  color: #14161E;
+  margin: 22pt 0 8pt;
+  padding-bottom: 3pt;
+  border-bottom: 0.75pt solid #DDE1EE;
+  page-break-after: avoid;
+}
+h3 {
+  font-size: 11.5pt;
+  font-weight: 700;
+  color: #212C9A;
+  margin: 14pt 0 4pt;
+  page-break-after: avoid;
+}
+h4 {
+  font-size: 10pt;
+  font-weight: 700;
+  color: #14161E;
+  margin: 12pt 0 3pt;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  page-break-after: avoid;
+}
+
+/* ---------- BODY ---------- */
+p { margin: 0 0 7pt; }
+p, li { orphans: 3; widows: 3; }
+strong { color: #14161E; }
+main {
+  padding: 0 4pt;
+}
+a { color: #2F6ED3; text-decoration: none; word-wrap: break-word; }
+ul, ol { margin: 4pt 0 8pt; padding-left: 22pt; }
+li { margin-bottom: 2pt; }
+li p { margin-bottom: 2pt; }
+hr {
+  border: none;
+  height: 0.5pt;
+  background: #DDE1EE;
+  margin: 16pt 0;
+}
+blockquote {
+  margin: 8pt 0;
+  padding: 4pt 12pt;
+  border-left: 2pt solid #2F6ED3;
+  background: #F5F6FB;
+  color: #14161E;
+  font-style: italic;
+}
+blockquote p:first-child { margin-top: 0; }
+blockquote p:last-child { margin-bottom: 0; }
+
+/* ---------- CODE ---------- */
+code {
+  font-family: "Consolas", "Cascadia Code", "SF Mono", "Menlo", monospace;
+  font-size: 9pt;
+  background: #F0F3FA;
+  padding: 0.05em 0.35em;
+  border-radius: 2pt;
+  border: 0.5pt solid #DDE1EE;
+  word-wrap: break-word;
+  white-space: nowrap;
+}
+pre {
+  font-family: "Consolas", "Cascadia Code", "SF Mono", "Menlo", monospace;
+  font-size: 8.5pt;
+  background: #F5F6FB;
+  color: #14161E;
+  border: 0.5pt solid #DDE1EE;
+  border-radius: 3pt;
+  padding: 7pt 10pt;
+  overflow-x: auto;
+  line-height: 1.35;
+  page-break-inside: avoid;
+  margin: 6pt 0 10pt;
+  white-space: pre;
+}
+pre code {
+  background: transparent;
+  border: none;
+  padding: 0;
+  font-size: inherit;
+  white-space: pre;
+}
+
+/* ---------- TABLES ---------- */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 8pt 0 10pt;
+  font-size: 9.5pt;
+  page-break-inside: avoid;
+}
+th, td {
+  padding: 5pt 8pt;
+  text-align: left;
+  vertical-align: top;
+  border: 0.5pt solid #C7CFE0;
+}
+th {
+  background: #F0F3FA;
+  font-weight: 700;
+  font-size: 8.5pt;
+  color: #14161E;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+tr:nth-child(even) td { background: #FAFBFF; }
+
+/* ---------- IMAGES / MISC ---------- */
+img {
+  max-width: 100%;
+  height: auto;
+  page-break-inside: avoid;
+}
+/* Trailing italicized footer line pattern */
+main > p:last-of-type em {
+  color: #5A6272;
+  font-size: 9pt;
+}
