@@ -215,18 +215,24 @@ Creative Commons language was removed from all public marketing surfaces (`/abou
 
 A legacy page from the platform's pre-Sync.Land era, which described CC-BY attribution rules as if current, was unpublished — it was giving creators instructions for a license they could no longer obtain.
 
-### 5.6 Production numbers at submission (2026-08-07)
+### 5.6 Production numbers
 
-| Metric | 2026-07-29 | 2026-08-07 |
-|---|---:|---:|
-| Published songs | 380 | **398** |
-| Published albums | 53 | **56** |
-| Published artist profiles | 18 | **19** |
-| Registered users | 47 | **48** |
-| Published sync licenses | 7 | **7** |
-| Post-M3 artist pitches (cumulative) | 30 | **30** |
+Read from production on each date. The final column is the state at submission.
 
-The song, album, and artist growth in this window is attributable to a single organic self-service onboarding — see *User Feedback Report* §10.1.
+| Metric | 2026-07-29 | 2026-08-07 | 2026-08-17 |
+|---|---:|---:|---:|
+| Published songs | 380 | 398 | **402** |
+| Published albums | 53 | 56 | **58** |
+| Published artist profiles | 18 | 19 | **21** |
+| Registered users | 47 | 48 | **53** |
+| Published sync licenses | 7 | 7 | **8** |
+| Post-M3 artist pitches (cumulative) | 30 | 30 | **32** |
+| Artist territories represented | — | — | **6** |
+
+Growth to 2026-08-07 came from a single organic self-service onboarding. The
+final window added four more self-service artist signups (Bergs, EmmyFL,
+ItsHIRAD, MarioSalseo), and territory became measurable for the first time when
+artist location shipped.
 
 ---
 

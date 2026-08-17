@@ -4,14 +4,25 @@ Since M3 marketplace launch (submitted 2026-06-23), Sync.Land has gathered struc
 
 **Headline numbers:**
 
+Figures read from production on 2026-08-17, covering 2026-06-23 onward.
+
 | Metric | Value | Notes |
 |---|---|---|
 | Net Promoter Score (avg) | **8.0 / 10** | 4 respondents · scores 10, 7, 5, 10 |
-| Terms of Service signatures (real, timestamped) | **9** | Across 5 unique users on 2 document versions |
-| Artist pitches on open briefs | **9** | 1 external artist, over 3 days |
-| Songs uploaded post-M3 | **17** | Across existing + new artist accounts |
-| Sessions with page-view instrumentation | **822** page views · **1,112** time-on-page events | Since 2026-06-23 |
-| Users who registered post-M3 | **1** | (Total registered users: 46) |
+| Terms of Service signatures (real, timestamped) | **12** | On the current version, 2026-07-10 |
+| Artist pitches on open briefs | **32** | Cumulative post-M3 |
+| Songs uploaded post-M3 | **30** | Across existing + new artist accounts |
+| Behavioral events post-M3 | **6,231** | 2,108 page views · 3,344 time-on-page · 291 read-completes |
+| Users who registered post-M3 | **7** | Total registered users: **53** |
+| Published artists | **21** | Across **6** territories |
+
+**Consent coverage is worth stating plainly.** 12 users have signed the current
+Terms version with a real timestamp. The remaining 41 accounts carry a
+`2024-01-01` placeholder written by the July backfill for legacy registrations,
+with no timestamp. Every artist who has registered since the consent gate went
+live is current; every account predating it is not. Those legacy accounts are
+dormant, so the gap will not close through a passive session gate and is
+tracked for an outbound pass in M5.
 
 **Top-line insight:** the single largest feature-request from feedback (survey ID #4 on 2026-06-22) mapped directly onto what M4 shipped. See §4.
 
@@ -118,32 +129,30 @@ Instrumented via `wp_fml_analytics_events` table. Events captured with `user_id`
 
 ### 5.1 Top event volumes since 2026-06-23
 
+Read from `wp_fml_analytics_events` on 2026-08-17. **6,231 events total.**
+
 | Event type | Count | Note |
 |---|---:|---|
-| `time_on_page` | 1,112 | ~5-second heartbeat while active |
-| `page_view` | 822 | Distinct page-loads |
-| `survey_banner_shown` | 183 | UX-friction signal (see §1.3) |
-| `planet_refresh` | 34 | The homepage visualizer engagement |
-| `song_pause` | 15 | |
-| `add_to_cart` | 10 | License add-to-cart |
-| `content.read_complete` | 10 | Long-form docs pages read to end |
-| `planet_play` | 9 | |
-| `song_play` | 6 | |
-| `checkout_start` | 4 | License checkouts initiated |
-| `song_complete` | 3 | Full playthrough |
-| `stream_play` | 3 | OBS Player playback (early testing) |
-| `visualizer_toggle` | 2 | |
-| `album_uploaded` | 2 | |
-| `song_uploaded` | 2 | (additional 15 uploaded via other paths) |
-| `license_modal_open` | 1 | |
+| `time_on_page` | 3,346 | ~5-second heartbeat while active |
+| `page_view` | 2,108 | Distinct page-loads |
+| `content.read_complete` | 291 | Long-form docs pages read to end |
+| `survey_banner_shown` | 258 | UX-friction signal (see §1.3) |
+| `song_pause` | 66 | |
+| `planet_refresh` | 34 | Homepage visualizer engagement |
+| `song_play` | 26 | |
+| `stream_play` | 21 | OBS Player playback |
+| `add_to_cart` | 14 | License add-to-cart |
+| `planet_play` | 14 | |
+| `song_complete` | 9 | Full playthrough |
+| `waveform_generated` | 8 | Upload pipeline |
+| `song_uploaded` | 8 | |
+| `outbound.click` | 6 | |
 
-### 5.2 Funnel signals
-
-- **10 add_to_cart → 4 checkout_start** — 40% cart-to-checkout conversion. Small denominator but positive.
-- **10 read-complete on docs pages** — users are reading the licensing docs to the end, indicating serious commercial interest.
-- **First LLM-referred visit** (ChatGPT) recorded 2026-07-06 — organic AI-agent traffic starts appearing.
-
----
+Two shifts since the M4 draft are worth reading rather than just counting.
+`content.read_complete` rose from 10 to **291**, which says the long-form
+licensing and about pages written in this cycle are being read to the end
+rather than bounced. `stream_play` rose from 3 to **21**: the OBS Player has
+moved from author testing into actual use.
 
 ## 6 · Qualitative — direct communication samples
 

@@ -82,7 +82,7 @@ Replacing it required drafting an original license instrument (SLFS-v1), buildin
 
 The remainder went to work that was in the plan but under-scoped: a cross-machine audio processing pipeline, an authenticated public API with token management, and a reference external application built and open-sourced to prove the API rather than merely describe it.
 
-**What the extra time produced, measured at submission:** 398 published songs, 56 albums, 19 artist profiles, 48 registered users, 30 artist pitches, 7 issued licenses, a live public API with an open-source reference client, an original license instrument, and a verifiable on-chain licensing record.
+**What the extra time produced, measured at submission (2026-08-17):** 402 published songs, 58 albums, 21 artist profiles across 6 territories, 53 registered users, 32 artist pitches, 8 issued licenses, a live public API with an open-source reference client, an original license instrument, and a verifiable on-chain licensing record.
 
 ---
 
