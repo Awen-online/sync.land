@@ -2,12 +2,12 @@
   <img src="./assets/syncland-header.png" alt="Sync.Land Header">
 </p>
 
-# Sync.Land| Metaverse & Video Game Music Licensing
+# Sync.Land | Metaverse & Video Game Music Licensing
 Visit our domain: https://sync.land
 
 ## Documentation
 
-Here you can find links to all neccessary documentation for each of the milestones throughout the progress of this project.
+Here you can find links to all the documentation for each of the milestones throughout the progress of this project.
 ### [Milestone 1 - Initialization](https://github.com/Awen-online/sync.land/tree/main/docs/M1_Initialization)
 >**Documents**
 >
@@ -41,7 +41,7 @@ Here you can find links to all neccessary documentation for each of the mileston
 >
 >[Test Case: NFT License Purchase](M3_Marketplace/Test_Case_-_NFT_License_Purchase.mp4) - end-to-end demo of a public user purchasing a sync license NFT on Cardano's Pre-production Network (mirror: [YouTube unlisted](https://www.youtube.com/watch?v=yt-R_F1wTGM))
 >
->[API Documentation](M3_Marketplace/SyncLand_API_Documentation_M3.pdf) - REST API reference for the Sync.Land platform (songs, artists, albums, licensing, NFT, payments, playlists) generated from the [OpenAPI 3.0 spec](../code/wp-content/themes/hello-elementor-child-sync-land/docs/api-spec.yaml)
+>[API Documentation](M3_Marketplace/SyncLand_API_Documentation_M3.pdf) - REST API reference for the Sync.Land platform (songs, artists, albums, licensing, NFT, payments, playlists) generated from the [OpenAPI 3.0 spec](../code/docs/api-spec.yaml)
 >
 >[Live Marketplace](https://sync.land) - the public website
 >
@@ -61,5 +61,38 @@ Here you can find links to all neccessary documentation for each of the mileston
 >- [`code/docs/api-spec.yaml`](../code/docs/api-spec.yaml) - full OpenAPI 3.0 spec (also rendered as the API Documentation PDF above)
 >- [`LICENSE`](../LICENSE) / [`code/LICENSE`](../code/LICENSE) - MIT License (as declared in the Catalyst Fund 11 application)
 
-### Milestone 4 - Marketplace Updates & API Launch
+### [Milestone 4 - Marketplace Updates & API Launch](https://github.com/Awen-online/sync.land/tree/main/docs/M4_API)
+>**Documents**
+>
+>[Evidence Index](M4_API/evidence_links.md) - maps each M4 acceptance criterion to the artefact that satisfies it; start here
+>
+>[Project Status Report](M4_API/SyncLand_Project_Status_Report_M4.pdf) - status against each acceptance criterion for the 2026-06-23 to 2026-08-17 reporting period
+>
+>[Project Timeline](M4_API/SyncLand_Project_Timeline_M4.pdf) - updated roadmap and delivery timeline
+>
+>[User Feedback Report](M4_API/SyncLand_User_Feedback_Report_M4.pdf) - survey responses and NPS, timestamped Terms of Service signatures, pitch activity on open briefs, behavioural analytics, and direct artist correspondence
+>
+>[Marketplace Updates](M4_API/SyncLand_Marketplace_Updates_M4.pdf) - the full changelog across five shipping cycles since M3, categorised, with verifiable commit hashes
+>
+>[API Documentation](M4_API/SyncLand_API_Documentation_M4.pdf) - current-state reference for the REST surface, including the `/streamer/*` namespace, the public licence verifier, authentication, CORS, and a live reproduction transcript
+>
+>[OBS Player Architecture](M4_API/SyncLand_OBS_Player_Architecture_M4.pdf) - how the dock and the streamer API fit together; the reference external application for acceptance criterion 3
+>
+>[Interactive Architecture](M4_API/architecture.html) - the same architecture as a theme-aware page with rendered diagrams
+>
+>[Screenshots](M4_API/screenshots/) - licence verification on screen, and the on-stream attribution lower third
+>
+>**Verify it yourself, without credentials**
+>
+>Licence verification is public. No token, no account, no coordination with us:
+>
+>```
+>https://www.sync.land/wp-json/FML/v1/licenses/11798/verify
+>```
+>
+>That is the licence for "Ice" by Mie, the same one minted on-chain for the M3 demonstration. The response names the work, the artist, the licensee, the issue date, a retrievable PDF of the licence instrument, and the Cardano transaction that recorded it.
+>
+>The reference external application is live at [sync.land/dock/](https://sync.land/dock/), with source at [Awen-online/syncland-obs-player](https://github.com/Awen-online/syncland-obs-player) under Apache-2.0.
+>
+>*Test case screen recording: pending.*
 ### Milestone 5 - Finalization
