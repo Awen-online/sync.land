@@ -1,0 +1,9 @@
+# Editable sources and build machinery for the milestone PDF packs.
+#
+# The PDFs in docs/MX_*/ are the deliverables. These are the Markdown they are
+# generated from, plus the pandoc template, print stylesheet and build script.
+# They are kept locally so the packs can be rebuilt, but publishing them put a
+# second copy of every figure in the repository with nothing keeping the two in
+# step -- and a reviewer reading the Markdown could get a different answer than
+# one reading the PDF.
+docs/*_source/
