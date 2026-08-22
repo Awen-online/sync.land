@@ -3,7 +3,7 @@
 > The Sync.Land platform is delivered as a hosted marketplace at
 > [https://sync.land](https://sync.land). This directory contains
 > **selected open-source components** released under the MIT License
-> 2.0 for community use, Catalyst Fund 11 transparency, and to give
+> for community use, Catalyst Fund 11 transparency, and to give
 > integrators a working reference for the public REST API.
 >
 > **Marketplace-specific logic — Stripe checkout, NMKR minting, the cart,
