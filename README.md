@@ -47,8 +47,7 @@ sync.land/
 │   ├── M1_Initialization/   # Design docs, timeline, status report
 │   ├── M2_Development/      # Pilot marketing, test cases, status report
 │   ├── M3_Marketplace/      # Marketplace launch evidence + on-chain licence demo
-│   ├── M4_API/              # API launch evidence pack (6 reports + index)
-│   └── M4_API_source/       # Markdown sources + build script for the M4 PDFs
+│   └── M4_API/              # API launch evidence pack (6 reports + index)
 └── README.md
 ```
 
