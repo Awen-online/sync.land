@@ -92,6 +92,10 @@ Here you can find links to all the documentation for each of the milestones thro
 >
 >The reference external application is live at [sync.land/dock/](https://sync.land/dock/), with source at [Awen-online/syncland-obs-player](https://github.com/Awen-online/syncland-obs-player) under Apache-2.0, released as [v0.2.0](https://github.com/Awen-online/syncland-obs-player/releases/tag/v0.2.0).
 >
+>**First public demonstration** (2026-08-17, the day the v0.2.0 release commit landed):
+>- [X / Twitter](https://x.com/CullahMusic/status/2089440204948128156) - the dock shown running in OBS
+>- [LinkedIn](https://www.linkedin.com/posts/cullah_testing-out-a-killer-feature-of-awens-syncland-activity-7495205159166468097-GiVN) - "Testing out a killer feature of Awen's Sync.Land"
+>
 >**Launch announcements** (Awen socials, 2026-08-31):
 >- [awen.online news post](https://awen.online/news/the-sync-land-dock-is-live-music-you-are-cleared-to-play/) - The Sync.Land dock is live: music you are cleared to play. What the dock solves for streamers, the guarantee it makes ("only music you are cleared to play"), the two-part dock and overlay setup, and the on-stream attribution badge.
 >- [X / Twitter](https://x.com/awen_online/status/2094658900142293439) - launch post by @awen_online
