@@ -1206,11 +1206,22 @@ components:
           example: NFT Verified
         blockchain:
           type: object
-          description: Present only where the license has been minted.
+          description: |
+            Present only where the license has been minted. Minting is optional
+            and is not performed for every license, so absence of this object
+            means the license was not minted, never that verification failed.
           properties:
             network:
               type: string
-              example: Cardano
+              description: Human-readable network name, qualified when not mainnet.
+              example: Cardano preprod
+            network_id:
+              type: string
+              description: Machine-readable network identifier.
+              enum:
+                - mainnet
+                - preprod
+              example: preprod
             transaction_hash:
               type: string
             policy_id:
