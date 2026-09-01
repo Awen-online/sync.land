@@ -2,12 +2,12 @@
   <img src="./assets/syncland-header.png" alt="Sync.Land Header">
 </p>
 
-# Sync.Land| Metaverse & Video Game Music Licensing
+# Sync.Land | Metaverse & Video Game Music Licensing
 Visit our domain: https://sync.land
 
 ## Documentation
 
-Here you can find links to all neccessary documentation for each of the milestones throughout the progress of this project.
+Here you can find links to all the documentation for each of the milestones throughout the progress of this project.
 ### [Milestone 1 - Initialization](https://github.com/Awen-online/sync.land/tree/main/docs/M1_Initialization)
 >**Documents**
 >
@@ -41,7 +41,7 @@ Here you can find links to all neccessary documentation for each of the mileston
 >
 >[Test Case: NFT License Purchase](M3_Marketplace/Test_Case_-_NFT_License_Purchase.mp4) - end-to-end demo of a public user purchasing a sync license NFT on Cardano's Pre-production Network (mirror: [YouTube unlisted](https://www.youtube.com/watch?v=yt-R_F1wTGM))
 >
->[API Documentation](M3_Marketplace/SyncLand_API_Documentation_M3.pdf) - REST API reference for the Sync.Land platform (songs, artists, albums, licensing, NFT, payments, playlists) generated from the [OpenAPI 3.0 spec](../code/wp-content/themes/hello-elementor-child-sync-land/docs/api-spec.yaml)
+>[API Documentation](M3_Marketplace/SyncLand_API_Documentation_M3.pdf) - REST API reference for the Sync.Land platform (songs, artists, albums, licensing, NFT, payments, playlists) generated from the [OpenAPI 3.0 spec](../code/docs/api-spec.yaml)
 >
 >[Live Marketplace](https://sync.land) - the public website
 >
@@ -61,5 +61,58 @@ Here you can find links to all neccessary documentation for each of the mileston
 >- [`code/docs/api-spec.yaml`](../code/docs/api-spec.yaml) - full OpenAPI 3.0 spec (also rendered as the API Documentation PDF above)
 >- [`LICENSE`](../LICENSE) / [`code/LICENSE`](../code/LICENSE) - MIT License (as declared in the Catalyst Fund 11 application)
 
-### Milestone 4 - Marketplace Updates & API Launch
+### [Milestone 4 - Marketplace Updates & API Launch](https://github.com/Awen-online/sync.land/tree/main/docs/M4_API)
+>**Documents**
+>
+>[Evidence Index](M4_API/SyncLand_Evidence_Index_M4.pdf) - maps each M4 acceptance criterion to the artefact that satisfies it; start here
+>
+>[Project Status Report](M4_API/SyncLand_Project_Status_Report_M4.pdf) - status against each acceptance criterion for the 2026-06-23 to 2026-08-17 reporting period
+>
+>[Project Timeline](M4_API/SyncLand_Project_Timeline_M4.pdf) - updated roadmap and delivery timeline
+>
+>[User Feedback Report](M4_API/SyncLand_User_Feedback_Report_M4.pdf) - survey responses and NPS, timestamped Terms of Service signatures, pitch activity on open briefs, behavioural analytics, and direct artist correspondence
+>
+>[Marketplace Updates](M4_API/SyncLand_Marketplace_Updates_M4.pdf) - the full changelog across five shipping cycles since M3, categorised, with verifiable commit hashes
+>
+>[API Documentation](M4_API/SyncLand_API_Documentation_M4.pdf) - current-state reference for the REST surface, including the `/streamer/*` namespace, the public licence verifier, authentication, CORS, and a live reproduction transcript
+>
+>[OBS Player Architecture](M4_API/SyncLand_OBS_Player_Architecture_M4.pdf) - how the dock and the streamer API fit together; the reference external application for acceptance criterion 3
+>
+>[Screenshots](M4_API/screenshots/) - licence verification on screen, and the on-stream attribution lower third
+>
+>**Verify it yourself, without credentials**
+>
+>Licence verification is public. No token, no account, no coordination with us:
+>
+>```
+>https://www.sync.land/wp-json/FML/v1/licenses/11798/verify
+>```
+>
+>That is the licence for "Ice" by Mie, the same one minted on-chain for the M3 demonstration. The response names the work, the artist, the licensee, the issue date, a retrievable PDF of the licence instrument, and the Cardano transaction that recorded it.
+>
+>The reference external application is live at [sync.land/dock/](https://sync.land/dock/), with source at [Awen-online/syncland-obs-player](https://github.com/Awen-online/syncland-obs-player) under Apache-2.0, released as [v0.2.0](https://github.com/Awen-online/syncland-obs-player/releases/tag/v0.2.0).
+>
+>**Launch announcements** (Awen socials, 2026-08-31):
+>- [awen.online news post](https://awen.online/news/the-sync-land-dock-is-live-music-you-are-cleared-to-play/) - The Sync.Land dock is live: music you are cleared to play. What the dock solves for streamers, the guarantee it makes ("only music you are cleared to play"), the two-part dock and overlay setup, and the on-stream attribution badge.
+>- [X / Twitter](https://x.com/awen_online/status/2094658900142293439) - launch post by @awen_online
+>- [Instagram](https://www.instagram.com/p/Dcu6bQNFKJj/) - launch post
+>- [LinkedIn](https://www.linkedin.com/feed/update/urn:li:activity:7500424603979141121) - launch post
+>
+>Milestone 4 output 3 is "the API module is publicly launched"; the above is that launch, following the same announcement pattern as the accepted M3 submission.
+>
+>**The API surface this milestone delivers**
+>
+>| Endpoint | Auth |
+>|---|---|
+>| `GET /licenses/{id}/verify` | none - public |
+>| `GET /streamer/me` | Personal Access Token |
+>| `GET /streamer/playlists` | Personal Access Token |
+>| `GET /streamer/track/{id}/clearance` | Personal Access Token |
+>| `POST /streamer/track/{id}/played` | Personal Access Token |
+>| `GET` `POST /streamer/tokens` | same-origin, nonce |
+>| `DELETE /streamer/tokens/{id}` | same-origin, nonce |
+>
+>All eight are specified in [`code/docs/api-spec.yaml`](../code/docs/api-spec.yaml) (OpenAPI 3.0, v1.2.0). Token management is deliberately nonce-authenticated rather than token-authenticated, so a Personal Access Token can never mint or revoke another token.
+>
+>*Test case screen recording: pending.*
 ### Milestone 5 - Finalization

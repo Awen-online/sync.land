@@ -8,38 +8,47 @@
   <a href="https://awen.online">Awen</a>
 </p>
 
+<p align="center">
+  <img src="https://img.shields.io/badge/Catalyst-Fund11-2F6ED3?style=flat-square" alt="Catalyst Fund11">
+  <img src="https://img.shields.io/badge/grant-100%2C000%20ADA-212C9A?style=flat-square" alt="100,000 ADA">
+  <img src="https://img.shields.io/badge/code-MIT-E237B2?style=flat-square" alt="MIT">
+  <img src="https://img.shields.io/badge/free%20tier-SLFS--v1-F0914D?style=flat-square" alt="SLFS-v1">
+</p>
+
 ---
 
 # Sync.Land | Metaverse & Video Game Music Licensing
 
-Sync.Land is an open-source music licensing platform where independent artists list tracks and licensees obtain **Creative Commons (CC-BY 4.0)** or paid **Non-Exclusive Sync** licenses, optionally backed by **Cardano NFTs** via NMKR, with **Stripe** payments.
+Sync.Land is an open-source music licensing platform where independent artists list tracks and licensees obtain a free **Sync.Land Free Sync License (SLFS-v1)** or a paid **Non-Exclusive Sync** license, optionally backed by **Cardano NFTs** via NMKR, with **Stripe** payments.
 
 Built on WordPress, powered by blockchain, and funded by **Project Catalyst Fund11**.
 
 ## Features
 
-- **Instant CC-BY Licensing** -- Free Creative Commons licenses with auto-generated PDF certificates
+- **Instant Free Licensing** -- The [Sync.Land Free Sync License (SLFS-v1)](https://sync.land/free-sync-license/) with auto-generated PDF certificates. Attribution required; creator-scale live-stream and UGC use permitted
 - **Paid Sync Licenses** -- Non-exclusive sync licenses for games, film, and metaverse projects via Stripe checkout
 - **NFT-Backed Licenses** -- Mint any license as a Cardano NFT through NMKR for on-chain proof of rights
 - **Persistent Music Player** -- Amplitude.js-powered sticky player with queue management, PJAX navigation for uninterrupted playback
 - **Artist Profiles** -- Upload tracks, manage releases, and track licensing activity
 - **REST API** -- OpenAPI 3.0 spec for external integrations (`/wp-json/FML/v1/`)
 - **DreamObjects S3 Storage** -- Audio files, artwork, and license PDFs stored on S3-compatible cloud storage
+- **OBS Player** -- A separate open-source app ([syncland-obs-player](https://github.com/Awen-online/syncland-obs-player), Apache-2.0) that verifies a track's sync licence against the public API before playing it on a live stream, and renders the required credit on air
 
 ## Repository Structure
 
 ```
 sync.land/
-├── code/                    # Platform source code
-│   └── wp-content/
-│       ├── themes/hello-elementor-child-sync-land/   # Child theme (all custom code)
-│       └── plugins/fml-music-player/                 # Sticky music player plugin
-├── docs/                    # Project Catalyst milestone reports
+├── code/                    # Curated open-core subset of the platform
+│   └── wp-content/themes/syncland-open-core/
+│       ├── functions/api/           # Public REST surface: artists, search, songs, API keys
+│       ├── functions/analytics/     # Event schema + on-site survey
+│       └── functions/seo/           # Structured data for music pages
+├── docs/                    # Project Catalyst milestone evidence
 │   ├── M1_Initialization/   # Design docs, timeline, status report
 │   ├── M2_Development/      # Pilot marketing, test cases, status report
-│   ├── M3_Marketplace/      # Marketplace launch evidence
-│   ├── M4_API/              # API launch documentation
-│   └── M5_Finalization/     # Closeout report
+│   ├── M3_Marketplace/      # Marketplace launch evidence + on-chain licence demo
+│   ├── M4_API/              # API launch evidence pack (6 reports + index)
+│   └── M4_API_source/       # Markdown sources + build script for the M4 PDFs
 └── README.md
 ```
 
@@ -52,7 +61,7 @@ sync.land/
 | Layer | Technology |
 |-------|-----------|
 | Platform | WordPress 6.x + Elementor Pro |
-| Theme | Hello Elementor Child |
+| Theme | Hello Elementor Child (open-core subset published as `syncland-open-core`) |
 | Audio | Amplitude.js (custom wrapper) |
 | Navigation | PJAX (seamless page transitions) |
 | 3D Visuals | Three.js (hero planet, particles) |
@@ -67,11 +76,21 @@ Sync.Land is funded by a **100,000 ADA** grant from [Cardano Project Catalyst Fu
 
 | Milestone | Focus | Status |
 |-----------|-------|--------|
-| M1 | Initialization -- Infrastructure & design | Approved |
-| M2 | Development -- Core features & pilot testing | Approved |
-| M3 | Marketplace Launch & API Development | In Progress |
-| M4 | Marketplace Updates & API Launch | Upcoming |
+| M1 | Initialization -- Infrastructure & design | Delivered, signed off |
+| M2 | Development -- Core features & pilot testing | Delivered, signed off |
+| M3 | Marketplace Launch & API Development | Delivered 2026-06-23 -- [evidence](docs/M3_Marketplace/) |
+| M4 | Marketplace Updates & API Launch | Evidence published -- [docs/M4_API/](docs/M4_API/) |
 | M5 | Finalization & Closeout | Upcoming |
+
+## Related repositories
+
+Sync.Land ships as more than one artefact. This repository is the Catalyst
+submission surface; the OBS Player is a standalone application in its own right.
+
+| Repository | What it is | Licence |
+|---|---|---|
+| **Awen-online/sync.land** (here) | Catalyst milestone evidence and the curated open-core subset of the platform | MIT |
+| [**Awen-online/syncland-obs-player**](https://github.com/Awen-online/syncland-obs-player) | The OBS Studio player that verifies a sync licence against the public API before playing a track on stream, and renders the required credit on air. The reference external application for M4 acceptance criterion 3. | Apache-2.0 |
 
 ## Getting Started
 

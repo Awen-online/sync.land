@@ -15,6 +15,17 @@ info:
     ### WordPress Nonce (Internal)
     For same-origin requests, use the `_wpnonce` parameter or `X-WP-Nonce` header.
 
+    ### Personal Access Token (Streamer API)
+    The streaming surface under `/streamer/*` uses a per-user Personal Access
+    Token, minted by the user at `/account/tokens/` and sent as a bearer token:
+    ```
+    Authorization: Bearer sk_syncland_...
+    ```
+    Tokens are stored as a SHA-256 digest; the plaintext is shown once at
+    creation and cannot be recovered. Token management itself
+    (`/streamer/tokens`) is same-origin and nonce-authenticated, so a token can
+    never mint or revoke another token.
+
     ### JWT Authentication (Alternative)
     Install the **JWT Authentication for WP REST API** plugin for Bearer token auth:
     - Plugin: https://wordpress.org/plugins/jwt-authentication-for-wp-rest-api/
@@ -30,7 +41,7 @@ info:
     - **Albums**: `/wp-json/pods/v1/album/`
     - **Licenses**: `/wp-json/pods/v1/license/`
     - **Playlists**: `/wp-json/pods/v1/playlist/`
-  version: 1.1.0
+  version: 1.2.0
   contact:
     name: Sync.Land
     url: https://sync.land
@@ -58,6 +69,10 @@ tags:
     description: User playlist management
   - name: System
     description: API status and management
+  - name: Streamer
+    description: Streaming clearance, playlists and usage reporting for external players
+  - name: Verification
+    description: Public, unauthenticated verification of an issued sync license
 
 security:
   - ApiKeyAuth: []
@@ -805,6 +820,339 @@ paths:
         '200':
           description: Playlist created
 
+  # ============================================================================
+  # VERIFICATION (public, unauthenticated)
+  # ============================================================================
+  /licenses/{id}/verify:
+    get:
+      tags:
+        - Verification
+      summary: Verify an issued sync license
+      description: |
+        Public verification of a license issued by Sync.Land. Takes no
+        credentials of any kind, so an external application, a licensee or a
+        reviewer can confirm a license independently.
+
+        Where the license has been minted on Cardano, the response carries the
+        policy id, asset name, transaction hash and a link to a public block
+        explorer, so the assertion can be checked against a source that is not
+        Sync.Land.
+
+        An unknown id returns a structured 404 body rather than an error page.
+      security: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: License post ID
+          schema:
+            type: integer
+          example: 11798
+      responses:
+        '200':
+          description: License found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    $ref: '#/components/schemas/LicenseVerification'
+        '404':
+          description: No license with that ID
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  error:
+                    type: string
+              example:
+                success: false
+                error: License not found
+
+  # ============================================================================
+  # STREAMER (Personal Access Token)
+  # ============================================================================
+  /streamer/me:
+    get:
+      tags:
+        - Streamer
+      summary: Identify the token holder
+      description: |
+        Returns the account the presented token belongs to, and the artist
+        profiles it owns. Used by external players to confirm which catalogue
+        they are entitled to and to display the connected identity.
+      security:
+        - StreamerToken: []
+      responses:
+        '200':
+          description: Token is valid
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user_id:
+                    type: integer
+                  display_name:
+                    type: string
+                  artist_ids:
+                    type: array
+                    items:
+                      type: integer
+              example:
+                user_id: 27
+                display_name: CullahMusic
+                artist_ids: [10276]
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /streamer/playlists:
+    get:
+      tags:
+        - Streamer
+      summary: List the token holder's playlists and their tracks
+      description: |
+        Returns every playlist owned by the token holder. The tracks object is
+        keyed by playlist ID, so a client can render a library in one round
+        trip.
+
+        Track entries carry display metadata only. No stream URL is issued
+        here: a player must call the clearance endpoint per track before
+        playback.
+      security:
+        - StreamerToken: []
+      responses:
+        '200':
+          description: Playlists returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                  playlists:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/StreamerPlaylist'
+                  tracks:
+                    type: object
+                    description: Track lists keyed by playlist ID
+                    additionalProperties:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/StreamerTrack'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /streamer/track/{id}/clearance:
+    get:
+      tags:
+        - Streamer
+      summary: Check whether a track may be streamed, and on what terms
+      description: |
+        The authorization check an external player performs before playback.
+        Returns the licensing tier, whether attribution is required and the
+        exact attribution string to display, plus the stream URL when cleared.
+
+        A false can_stream is a normal, successful response, not an error. A
+        client must honour it and skip the track. The reason_if_blocked field
+        distinguishes the cases: artist_paused (the artist paused licensing),
+        artist_removed (no longer published) and no_license.
+
+        The ai_disclosure field reports what the artist declared at upload
+        about AI involvement. A value of undeclared means the track predates
+        the question rather than that a claim was checked and rejected.
+      security:
+        - StreamerToken: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Song post ID
+          schema:
+            type: integer
+          example: 11907
+      responses:
+        '200':
+          description: Clearance verdict, cleared or blocked
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Clearance'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /streamer/track/{id}/played:
+    post:
+      tags:
+        - Streamer
+      summary: Report that a track was played
+      description: |
+        Writes the play into the usage ledger together with the clearance
+        verdict that applied at the time, which is what makes a play auditable
+        after the fact rather than merely counted.
+
+        Call it when playback starts. Reporting is required by the Free Sync
+        License terms for players that stream on a public channel.
+      security:
+        - StreamerToken: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Song post ID
+          schema:
+            type: integer
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                seconds:
+                  type: integer
+                  description: Seconds of the track actually played
+                playlist_id:
+                  type: integer
+                  description: Playlist the track was played from, if any
+                channel:
+                  type: string
+                  description: Public channel identifier, where the player knows it
+                surface:
+                  type: string
+                  default: obs-dock
+                  description: Which client reported the play
+            example:
+              seconds: 191
+              playlist_id: 12208
+              surface: obs-dock
+      responses:
+        '200':
+          description: Play recorded
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  # ============================================================================
+  # TOKEN MANAGEMENT (same-origin, nonce authenticated)
+  # ============================================================================
+  /streamer/tokens:
+    get:
+      tags:
+        - Streamer
+      summary: List the current user's tokens
+      description: |
+        Same-origin and nonce-authenticated, not token-authenticated: a
+        Personal Access Token cannot enumerate, mint or revoke tokens. Only the
+        prefix is ever returned, never the secret.
+      security:
+        - WordPressNonce: []
+      responses:
+        '200':
+          description: Tokens listed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                  tokens:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/StreamerToken'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      tags:
+        - Streamer
+      summary: Mint a new Personal Access Token
+      description: |
+        Returns the token plaintext exactly once. It is stored only as a
+        SHA-256 digest, so a lost token cannot be recovered and must be revoked
+        and replaced.
+      security:
+        - WordPressNonce: []
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  maxLength: 120
+                  default: OBS Player token
+                  description: Label shown in the token list
+            example:
+              name: obs-demo-2026-08-31
+      responses:
+        '200':
+          description: Token created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                  token:
+                    type: string
+                    description: Plaintext secret. Shown once and never again.
+                  prefix:
+                    type: string
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /streamer/tokens/{id}:
+    delete:
+      tags:
+        - Streamer
+      summary: Revoke a token
+      description: |
+        Marks the token revoked. The audit row is retained rather than deleted,
+        so past usage stays attributable.
+      security:
+        - WordPressNonce: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Token revoked
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+
 components:
   securitySchemes:
     ApiKeyAuth:
@@ -822,8 +1170,195 @@ components:
       scheme: bearer
       bearerFormat: JWT
       description: JWT token (requires JWT plugin)
+    StreamerToken:
+      type: http
+      scheme: bearer
+      bearerFormat: sk_syncland_*
+      description: |
+        Personal Access Token for the streamer API. Minted by the user at
+        `/account/tokens/`, prefixed `sk_syncland_`, 53 characters total.
+        Stored server-side as a SHA-256 digest only.
 
   schemas:
+    LicenseVerification:
+      type: object
+      description: Public verification record for an issued license.
+      properties:
+        license_id:
+          type: integer
+        license_type:
+          type: string
+          description: |
+            Stored slug. Free-tier licenses issued before the SLFS-v1 migration
+            retain the historical cc_by slug; read license_type_label for the
+            current name of the tier.
+          example: non_exclusive
+        license_type_label:
+          type: string
+          example: Commercial License
+        nft_verified:
+          type: boolean
+        nft_status:
+          type: string
+          example: minted
+        verification_badge:
+          type: string
+          example: NFT Verified
+        blockchain:
+          type: object
+          description: Present only where the license has been minted.
+          properties:
+            network:
+              type: string
+              example: Cardano
+            transaction_hash:
+              type: string
+            policy_id:
+              type: string
+            asset_name:
+              type: string
+            explorer_url:
+              type: string
+              format: uri
+              description: Public block explorer link, independent of Sync.Land
+        song:
+          type: object
+          properties:
+            id:
+              type: string
+            title:
+              type: string
+        artist:
+          type: object
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+        licensee:
+          type: string
+        issue_date:
+          type: string
+        license_url:
+          type: string
+          format: uri
+          description: The issued license PDF
+
+    Clearance:
+      type: object
+      description: |
+        Streaming authorization verdict for one song. A false can_stream is a
+        successful response that the client must honour, not an error.
+      properties:
+        ok:
+          type: boolean
+        can_stream:
+          type: boolean
+        tier:
+          type: string
+          example: SLFS-v1
+        tier_label:
+          type: string
+          example: Free Sync License
+        attribution_required:
+          type: boolean
+        attribution_text:
+          type: string
+          description: The exact string the player must display on air
+        stream_url:
+          type: string
+          format: uri
+          description: Empty when the track is not cleared
+        reason_if_blocked:
+          type: string
+          nullable: true
+          enum:
+            - artist_paused
+            - artist_removed
+            - no_license
+        ai_disclosure:
+          type: string
+          description: What the artist declared at upload about AI involvement
+          enum:
+            - none
+            - assisted
+            - generated
+            - undeclared
+        ai_disclosure_label:
+          type: string
+          example: Not declared
+        song:
+          type: object
+          nullable: true
+          properties:
+            id:
+              type: integer
+            title:
+              type: string
+            artist:
+              type: string
+            album:
+              type: string
+            slug:
+              type: string
+            duration:
+              type: integer
+              description: Seconds
+            cover_url:
+              type: string
+
+    StreamerPlaylist:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        track_count:
+          type: integer
+        cover_url:
+          type: string
+          description: Cover of the first track that has one
+
+    StreamerTrack:
+      type: object
+      description: Display metadata only. Call the clearance endpoint before playback.
+      properties:
+        song_id:
+          type: integer
+        title:
+          type: string
+        artist:
+          type: string
+        duration:
+          type: integer
+          description: Seconds
+        cover_url:
+          type: string
+
+    StreamerToken:
+      type: object
+      description: Token record. The secret itself is never returned after creation.
+      properties:
+        id:
+          type: integer
+        token_prefix:
+          type: string
+          example: sk_syncland_ab12
+        name:
+          type: string
+        created_at:
+          type: string
+        last_used_at:
+          type: string
+          nullable: true
+        expires_at:
+          type: string
+          nullable: true
+        revoked_at:
+          type: string
+          nullable: true
+
     Song:
       type: object
       properties:
@@ -975,6 +1510,18 @@ components:
               type: string
 
   responses:
+    Unauthorized:
+      description: Missing, malformed, revoked or expired credentials
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            success: false
+            error:
+              code: unauthorized
+              message: Invalid or missing token.
+
     NotFound:
       description: Resource not found
       content:
