@@ -66,7 +66,7 @@ Here you can find links to all the documentation for each of the milestones thro
 >
 >[Evidence Index](M4_API/SyncLand_Evidence_Index_M4.pdf) - maps each M4 acceptance criterion to the artefact that satisfies it; start here
 >
->[Project Status Report](M4_API/SyncLand_Project_Status_Report_M4.pdf) - status against each acceptance criterion for the 2026-06-23 to 2026-08-17 reporting period
+>[Project Status Report](M4_API/SyncLand_Project_Status_Report_M4.pdf) - status against each acceptance criterion for the 2026-06-23 to 2026-09-01 reporting period
 >
 >[Project Timeline](M4_API/SyncLand_Project_Timeline_M4.pdf) - updated roadmap and delivery timeline
 >
@@ -102,7 +102,7 @@ Here you can find links to all the documentation for each of the milestones thro
 >- [Instagram](https://www.instagram.com/p/Dcu6bQNFKJj/) - launch post
 >- [LinkedIn](https://www.linkedin.com/feed/update/urn:li:activity:7500424603979141121) - launch post
 >
->Milestone 4 output 3 is "the API module is publicly launched"; the above is that launch, following the same announcement pattern as the accepted M3 submission.
+>Milestone 4 output 3 is "the API module is publicly launched"; the above is that launch, following the same announcement pattern as the M3 submission.
 >
 >**The API surface this milestone delivers**
 >
@@ -118,5 +118,5 @@ Here you can find links to all the documentation for each of the milestones thro
 >
 >All eight are specified in [`code/docs/api-spec.yaml`](../code/docs/api-spec.yaml) (OpenAPI 3.0, v1.2.0). Token management is deliberately nonce-authenticated rather than token-authenticated, so a Personal Access Token can never mint or revoke another token.
 >
->*Test case screen recording: pending.*
+>[Test case recording](M4_API/Test_Case_-_External_API_License_Verification.mp4) - an external application verifying a sync licence via the public API, recorded 2026-09-02, 6 minutes 50 seconds ([streaming mirror](https://youtu.be/lJu1HfinqQw)), corroborated by the server-side [play log](M4_API/M4_play_log_2026-09-02.csv) exported the same day.
 ### Milestone 5 - Finalization
