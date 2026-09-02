@@ -1228,6 +1228,16 @@ components:
               type: string
             asset_name:
               type: string
+              description: |
+                The asset name as it exists on chain, which is the NMKR project
+                prefix plus the token name we submitted. Use this with policy_id
+                to look the asset up in an explorer; the submitted name alone
+                resolves to nothing.
+              example: synclandpreprodSL11798_th3l07
+            asset_name_submitted:
+              type: string
+              description: The token name Sync.Land sent to the minting service.
+              example: SL11798_th3l07
             explorer_url:
               type: string
               format: uri
