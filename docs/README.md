@@ -130,6 +130,99 @@ Here you can find links to all the documentation for each of the milestones thro
 >
 >**Close-out video**
 >
->[Close-out video](M5_Finalization/SyncLand_Closeout_Video_M5.mp4) - 4 minutes 52 seconds, 1080p, presented by Ian McCullough: the challenge and the funding, progress and KPIs, a live demonstration from the artist dashboard to licensed music playing in OBS, and commercialisation and next steps ([English captions](M5_Finalization/SyncLand_Closeout_Video_M5.srt); public YouTube link: add after upload)
+>[Close-out video on YouTube](https://youtu.be/raXV5g6JdKs) - 4 minutes 52 seconds, 1080p, presented by Ian McCullough: the challenge and the funding, progress and KPIs, a live demonstration from the artist dashboard to licensed music playing in OBS, and commercialisation and next steps
+>
+>[Repository copy](M5_Finalization/SyncLand_Closeout_Video_M5.mp4) - the same video as a file of record, with [English captions](M5_Finalization/SyncLand_Closeout_Video_M5.srt)
+>
+>[Live Marketplace](https://sync.land) - the public website
+>
+>**Launch announcements** (Awen socials, 2026-06-22):
+>- [awen.online news post](https://awen.online/news/sync-land-launches-awens-peer-to-peer-music-licensing-platform-goes-live/) - Sync.Land launches: Awen's peer-to-peer music licensing platform goes live
+>- [X / Twitter](https://x.com/awen_online/status/2069076274098606574) - launch thread by @awen_online
+>- [LinkedIn](https://www.linkedin.com/posts/awenonline_the-wait-is-over-syncland-is-live-activity-7474841972634165248-u4_y) - "The wait is over — Sync.Land is live"
+>- [Instagram](https://www.instagram.com/p/DZ5Iym_ks9i/) - launch announcement post
+>
+>**Platform code (open-core release, MIT)**:
+>- [`code/`](../code/) - top-level docs, LICENSE, and the curated open-core subset (~2,860 lines of PHP across 9 modules; the proprietary marketplace logic stays behind the hosted site at https://sync.land)
+>- [`code/wp-content/themes/syncland-open-core/`](../code/wp-content/themes/syncland-open-core/) - the open theme module map
+>  - [`functions/seo/music-schema.php`](../code/wp-content/themes/syncland-open-core/functions/seo/music-schema.php) - Schema.org JSON-LD (MusicRecording / MusicAlbum / MusicGroup)
+>  - [`functions/seo/dynamic-meta.php`](../code/wp-content/themes/syncland-open-core/functions/seo/dynamic-meta.php) - per-CPT title / description / og:image automation
+>  - [`functions/analytics/`](../code/wp-content/themes/syncland-open-core/functions/analytics/) - role-aware feedback survey schema + UI
+>  - [`functions/api/`](../code/wp-content/themes/syncland-open-core/functions/api/) - REST endpoints (analytics, security, songs, artists, search)
+>- [`code/docs/api-spec.yaml`](../code/docs/api-spec.yaml) - full OpenAPI 3.0 spec (also rendered as the API Documentation PDF above)
+>- [`LICENSE`](../LICENSE) / [`code/LICENSE`](../code/LICENSE) - MIT License (as declared in the Catalyst Fund 11 application)
+
+### [Milestone 4 - Marketplace Updates & API Launch](https://github.com/Awen-online/sync.land/tree/main/docs/M4_API)
+>**Documents**
+>
+>[Evidence Index](M4_API/SyncLand_Evidence_Index_M4.pdf) - maps each M4 acceptance criterion to the artefact that satisfies it; start here
+>
+>[Project Status Report](M4_API/SyncLand_Project_Status_Report_M4.pdf) - status against each acceptance criterion for the 2026-06-23 to 2026-09-01 reporting period
+>
+>[Project Timeline](M4_API/SyncLand_Project_Timeline_M4.pdf) - updated roadmap and delivery timeline
+>
+>[User Feedback Report](M4_API/SyncLand_User_Feedback_Report_M4.pdf) - survey responses and NPS, timestamped Terms of Service signatures, pitch activity on open briefs, behavioural analytics, and direct artist correspondence
+>
+>[Marketplace Updates](M4_API/SyncLand_Marketplace_Updates_M4.pdf) - the full changelog across five shipping cycles since M3, categorised, with verifiable commit hashes
+>
+>[API Documentation](M4_API/SyncLand_API_Documentation_M4.pdf) - current-state reference for the REST surface, including the `/streamer/*` namespace, the public licence verifier, authentication, CORS, and a live reproduction transcript
+>
+>[OBS Player Architecture](M4_API/SyncLand_OBS_Player_Architecture_M4.pdf) - how the dock and the streamer API fit together; the reference external application for acceptance criterion 3
+>
+>[Screenshots](M4_API/screenshots/) - licence verification on screen, and the on-stream attribution lower third
+>
+>**Verify it yourself, without credentials**
+>
+>Licence verification is public. No token, no account, no coordination with us:
+>
+>```
+>https://www.sync.land/wp-json/FML/v1/licenses/11798/verify
+>```
+>
+>That is the licence for "Ice" by Mie, the same one minted on-chain for the M3 demonstration. The response names the work, the artist, the licensee, the issue date, a retrievable PDF of the licence instrument, and the Cardano transaction that recorded it.
+>
+>The reference external application is live at [sync.land/dock/](https://sync.land/dock/), with source at [Awen-online/syncland-obs-player](https://github.com/Awen-online/syncland-obs-player) under Apache-2.0, released as [v0.2.0](https://github.com/Awen-online/syncland-obs-player/releases/tag/v0.2.0).
+>
+>**First public demonstration** (2026-08-17, the day the v0.2.0 release commit landed):
+>- [X / Twitter](https://x.com/CullahMusic/status/2089440204948128156) - the dock shown running in OBS
+>- [LinkedIn](https://www.linkedin.com/posts/cullah_testing-out-a-killer-feature-of-awens-syncland-activity-7495205159166468097-GiVN) - "Testing out a killer feature of Awen's Sync.Land"
+>
+>**Launch announcements** (Awen socials, 2026-08-31):
+>- [awen.online news post](https://awen.online/news/the-sync-land-dock-is-live-music-you-are-cleared-to-play/) - The Sync.Land dock is live: music you are cleared to play. What the dock solves for streamers, the guarantee it makes ("only music you are cleared to play"), the two-part dock and overlay setup, and the on-stream attribution badge.
+>- [X / Twitter](https://x.com/awen_online/status/2094658900142293439) - launch post by @awen_online
+>- [Instagram](https://www.instagram.com/p/Dcu6bQNFKJj/) - launch post
+>- [LinkedIn](https://www.linkedin.com/feed/update/urn:li:activity:7500424603979141121) - launch post
+>
+>Milestone 4 output 3 is "the API module is publicly launched"; the above is that launch, following the same announcement pattern as the M3 submission.
+>
+>**The API surface this milestone delivers**
+>
+>| Endpoint | Auth |
+>|---|---|
+>| `GET /licenses/{id}/verify` | none - public |
+>| `GET /streamer/me` | Personal Access Token |
+>| `GET /streamer/playlists` | Personal Access Token |
+>| `GET /streamer/track/{id}/clearance` | Personal Access Token |
+>| `POST /streamer/track/{id}/played` | Personal Access Token |
+>| `GET` `POST /streamer/tokens` | same-origin, nonce |
+>| `DELETE /streamer/tokens/{id}` | same-origin, nonce |
+>
+>All eight are specified in [`code/docs/api-spec.yaml`](../code/docs/api-spec.yaml) (OpenAPI 3.0, v1.2.0). Token management is deliberately nonce-authenticated rather than token-authenticated, so a Personal Access Token can never mint or revoke another token.
+>
+>[Test case recording](M4_API/Test_Case_-_External_API_License_Verification.mp4) - an external application verifying a sync licence via the public API, recorded 2026-09-02, 6 minutes 50 seconds ([streaming mirror](https://youtu.be/lJu1HfinqQw)), corroborated by the server-side [play log](M4_API/M4_play_log_2026-09-02.csv) exported the same day.
+### [Milestone 5 - Finalization](https://github.com/Awen-online/sync.land/tree/main/docs/M5_Finalization)
+>**Documents**
+>
+>[Evidence Index](M5_Finalization/SyncLand_Evidence_Index_M5.pdf) - maps each M5 acceptance criterion to the artefact that satisfies it; start here
+>
+>[Project Close-out Report](M5_Finalization/SyncLand_PCR_M5.pdf) - the Catalyst PCR: outputs, KPIs, evidence and what comes next, in three pages
+>
+>[Closeout Report](M5_Finalization/SyncLand_Closeout_Report_M5.pdf) - the full project retrospective: goals against outcomes across all five milestones, feature inventory, final architecture, production metrics read on 2026-09-29, lessons learned, and the roadmap beyond Fund 11
+>
+>**Close-out video**
+>
+>[Close-out video on YouTube](https://youtu.be/raXV5g6JdKs) - the public copy Catalyst reviews
+>
+>[Close-out video](M5_Finalization/SyncLand_Closeout_Video_M5.mp4) - 4 minutes 52 seconds, 1080p, presented by Ian McCullough: the challenge and the funding, progress and KPIs, a live demonstration from the artist dashboard to licensed music playing in OBS, and commercialisation and next steps ([English captions](M5_Finalization/SyncLand_Closeout_Video_M5.srt))
 >
 >[Live Marketplace](https://sync.land) - the public website
