@@ -47,7 +47,8 @@ sync.land/
 │   ├── M1_Initialization/   # Design docs, timeline, status report
 │   ├── M2_Development/      # Pilot marketing, test cases, status report
 │   ├── M3_Marketplace/      # Marketplace launch evidence + on-chain licence demo
-│   └── M4_API/              # API launch evidence pack, test case recording, play log
+│   ├── M4_API/              # API launch evidence pack, test case recording, play log
+│   └── M5_Finalization/     # Closeout report, PCR, evidence index, close-out video
 └── README.md
 ```
 
@@ -78,8 +79,8 @@ Sync.Land is funded by a **100,000 ADA** grant from [Cardano Project Catalyst Fu
 | M1 | Initialization -- Infrastructure & design | Delivered, signed off |
 | M2 | Development -- Core features & pilot testing | Delivered, signed off |
 | M3 | Marketplace Launch & API Development | Delivered, signed off -- [evidence](docs/M3_Marketplace/) |
-| M4 | Marketplace Updates & API Launch | Submitted 2026-09-02 -- [evidence](docs/M4_API/) |
-| M5 | Finalization & Closeout | Upcoming |
+| M4 | Marketplace Updates & API Launch | Delivered, signed off -- [evidence](docs/M4_API/) |
+| M5 | Finalization & Closeout | Submitted -- [evidence](docs/M5_Finalization/) |
 
 ## Related repositories
 

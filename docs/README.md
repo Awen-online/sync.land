@@ -119,4 +119,17 @@ Here you can find links to all the documentation for each of the milestones thro
 >All eight are specified in [`code/docs/api-spec.yaml`](../code/docs/api-spec.yaml) (OpenAPI 3.0, v1.2.0). Token management is deliberately nonce-authenticated rather than token-authenticated, so a Personal Access Token can never mint or revoke another token.
 >
 >[Test case recording](M4_API/Test_Case_-_External_API_License_Verification.mp4) - an external application verifying a sync licence via the public API, recorded 2026-09-02, 6 minutes 50 seconds ([streaming mirror](https://youtu.be/lJu1HfinqQw)), corroborated by the server-side [play log](M4_API/M4_play_log_2026-09-02.csv) exported the same day.
-### Milestone 5 - Finalization
+### [Milestone 5 - Finalization](https://github.com/Awen-online/sync.land/tree/main/docs/M5_Finalization)
+>**Documents**
+>
+>[Evidence Index](M5_Finalization/SyncLand_Evidence_Index_M5.pdf) - maps each M5 acceptance criterion to the artefact that satisfies it; start here
+>
+>[Project Close-out Report](M5_Finalization/SyncLand_PCR_M5.pdf) - the Catalyst PCR: outputs, KPIs, evidence and what comes next, in three pages
+>
+>[Closeout Report](M5_Finalization/SyncLand_Closeout_Report_M5.pdf) - the full project retrospective: goals against outcomes across all five milestones, feature inventory, final architecture, production metrics read on 2026-09-29, lessons learned, and the roadmap beyond Fund 11
+>
+>**Close-out video**
+>
+>[Close-out video](M5_Finalization/SyncLand_Closeout_Video_M5.mp4) - 4 minutes 52 seconds, 1080p, presented by Ian McCullough: the challenge and the funding, progress and KPIs, a live demonstration from the artist dashboard to licensed music playing in OBS, and commercialisation and next steps ([English captions](M5_Finalization/SyncLand_Closeout_Video_M5.srt); public YouTube link: add after upload)
+>
+>[Live Marketplace](https://sync.land) - the public website

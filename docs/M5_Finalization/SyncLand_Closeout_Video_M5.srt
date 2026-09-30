@@ -1,0 +1,323 @@
+1
+00:00:05,660 --> 00:00:07,230
+Hello there, my name is Ian McCullough,
+
+2
+00:00:07,280 --> 00:00:11,850
+and this is the close-out video
+for Sync.Land Project 11 00272,
+
+3
+00:00:12,000 --> 00:00:16,590
+funded in Project Catalyst Fund 11 under
+the Cardano Use Cases: Concept category.
+
+4
+00:00:16,640 --> 00:00:18,400
+So the problem that we solved
+
+5
+00:00:18,450 --> 00:00:23,480
+with this Catalyst proposal was an
+independent musician has no plain way
+
+6
+00:00:23,590 --> 00:00:28,550
+to license a song for a film
+or game or a livestream
+
+7
+00:00:28,600 --> 00:00:31,600
+without a traditional publisher
+or legacy system.
+
+8
+00:00:31,660 --> 00:00:36,550
+And the buyer, the streamer,
+the game developer, the filmmaker,
+
+9
+00:00:36,600 --> 00:00:41,550
+has no plain way to get the provable
+license and know what it's for and when,
+
+10
+00:00:41,600 --> 00:00:43,600
+and all that is very confusing.
+
+11
+00:00:43,650 --> 00:00:46,820
+So we have streamlined
+that entire process,
+
+12
+00:00:46,870 --> 00:00:51,400
+and our approach was to build
+it around a marketplace structure
+
+13
+00:00:51,720 --> 00:00:53,850
+where it's peer-to-peer, open,
+
+14
+00:00:53,900 --> 00:00:58,590
+and the artist directs
+its licensing straight to the buyer.
+
+15
+00:00:58,660 --> 00:01:04,560
+We've been able to have 653
+individual tracks of different genres,
+
+16
+00:01:04,610 --> 00:01:10,600
+and we've been able to amass 85 different
+artists in 26 different countries.
+
+17
+00:01:10,660 --> 00:01:13,542
+And I think that's the KPI
+that matters the most.
+
+18
+00:01:13,610 --> 00:01:14,970
+Really, it's the supply.
+
+19
+00:01:15,020 --> 00:01:20,790
+The part of the reason
+why it's been successful
+
+20
+00:01:20,840 --> 00:01:24,790
+has been the advent of ChatGPT
+
+21
+00:01:24,840 --> 00:01:28,600
+and optimizing for LLMs.
+This is the llms.txt.
+
+22
+00:01:28,660 --> 00:01:33,830
+So let's start by logging in,
+and I will log into my artist account,
+
+23
+00:01:33,880 --> 00:01:37,520
+where we'll be able
+to see my dashboard here,
+
+24
+00:01:37,640 --> 00:01:40,590
+where I can see all my albums.
+
+25
+00:01:40,640 --> 00:01:42,540
+I can manage the licensing,
+
+26
+00:01:42,590 --> 00:01:47,190
+but the other part of the artist's
+experience primarily is through
+
+27
+00:01:47,240 --> 00:01:51,660
+their pitches. And this is all through the
+economic function from the demand side,
+
+28
+00:01:51,710 --> 00:01:55,460
+the buyer side. This is through briefs.
+
+29
+00:01:56,020 --> 00:02:00,240
+These are sync opportunities
+that are available
+
+30
+00:02:00,290 --> 00:02:04,520
+through our music supervision partners.
+
+31
+00:02:04,660 --> 00:02:10,560
+So these are real briefs
+that we accept pitches from artists.
+
+32
+00:02:10,610 --> 00:02:13,610
+There has already been 194
+pitches from 29 artists.
+
+33
+00:02:13,660 --> 00:02:16,320
+And when these licenses
+get certified on chain,
+
+34
+00:02:16,370 --> 00:02:19,899
+this is a public endpoint
+that needs no account or anything.
+
+35
+00:02:19,980 --> 00:02:25,170
+This is the receipt that we store
+that points to the transaction itself
+
+36
+00:02:25,220 --> 00:02:28,520
+and the assets and the UTXOs involved.
+
+37
+00:02:28,960 --> 00:02:32,270
+And here it is on Cardano preprod.
+
+38
+00:02:32,320 --> 00:02:36,580
+We have three tiers, the free syncs,
+
+39
+00:02:36,720 --> 00:02:39,180
+so personal, educational, nonprofit,
+
+40
+00:02:39,230 --> 00:02:44,600
+people that are doing user-generated
+content or small indie developers.
+
+41
+00:02:44,660 --> 00:02:48,740
+And then there is a cap
+and what they call a step deal
+
+42
+00:02:48,790 --> 00:02:54,600
+into commercial licensing if it's enabled,
+where you just pay one-time fee.
+
+43
+00:02:54,660 --> 00:02:57,680
+And then there are the custom
+and exclusive.
+
+44
+00:02:57,730 --> 00:03:01,480
+And of course,
+it's all verified on chain on Cardano.
+
+45
+00:03:01,660 --> 00:03:06,900
+The last piece that we'll go
+through is the world of streaming
+
+46
+00:03:06,950 --> 00:03:11,520
+and streamers.
+This is our big push into that world.
+
+47
+00:03:11,610 --> 00:03:17,520
+A public API connecting other
+applications to license on the fly.
+
+48
+00:03:17,870 --> 00:03:20,180
+OK, so we get a link
+
+49
+00:03:20,230 --> 00:03:24,810
+and paste it in and then we're able
+
+50
+00:03:24,860 --> 00:03:30,600
+to access the songs through our playlist.
+
+51
+00:03:30,960 --> 00:03:34,130
+And open up the electronic playlist
+
+52
+00:03:34,180 --> 00:03:39,520
+and we can see here's
+the first song in the playlist.
+
+53
+00:03:39,660 --> 00:03:45,400
+So if they go to the next song, boom,
+it goes to the next song, pause,
+
+54
+00:03:45,450 --> 00:03:50,510
+pauses, play, play. Some closing
+remarks here about this project.
+
+55
+00:03:51,020 --> 00:03:54,550
+Sync.Land continues past the grant.
+
+56
+00:03:54,650 --> 00:03:58,680
+This is now entering into a new phase,
+past the concept,
+
+57
+00:03:58,730 --> 00:04:00,800
+and will be able
+to be tested commercially.
+
+58
+00:04:00,850 --> 00:04:06,840
+The honest state of this after
+a conceptual build is it needs more buyer
+
+59
+00:04:07,000 --> 00:04:10,520
+demand. And what streaming
+has taught us is that we need
+
+60
+00:04:10,610 --> 00:04:14,600
+to be embracing the micro-sync
+per-use license.
+
+61
+00:04:14,660 --> 00:04:19,540
+And we could use the x402
+AI agents with Masumi.
+
+62
+00:04:19,650 --> 00:04:25,020
+We can have the licenses settled in Hydra
+to be able to handle higher throughput
+
+63
+00:04:25,070 --> 00:04:29,960
+and cheaper fees. Sync.Land is taking
+30 percent of each license on sale
+
+64
+00:04:30,010 --> 00:04:32,570
+and 70 percent goes to the artists.
+
+65
+00:04:32,660 --> 00:04:36,550
+For this phase, we're going
+to be raising a pre-seed round.
+
+66
+00:04:36,640 --> 00:04:40,590
+We would love to come back to Project
+Catalyst for any open source pieces.
+
+67
+00:04:40,640 --> 00:04:44,550
+I want to say thank you to the Cardano
+community first and foremost
+
+68
+00:04:44,600 --> 00:04:50,550
+for believing in the Sync.Land vision and
+for Project Catalyst and the reviewers.
+
+69
+00:04:50,660 --> 00:04:52,600
+And with that, goodbye.
